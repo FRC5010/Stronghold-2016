@@ -2,43 +2,47 @@ package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class LogXtremeJoystick extends LogitechJoystick 
-	implements JoystickController
-{
+public class LogXtremeJoystick extends LogitechJoystick implements JoystickController {
 	private Joystick joyStick;
+	private boolean button12Status;
+	private boolean button12Previous;
+	private double sliderStatus;
 
 	public LogXtremeJoystick(Joystick joyStick) {
 		super(joyStick);
-		joyStick = joyStick;
+		this.joyStick = joyStick;
 	}
 
 	public boolean isButton12Pressed() {
-		return joyStick.getRawButton(12);
+		return isButtonPressed(12);
 
 	}
 
 	public double sliderValue() {
-		return joyStick.getRawAxis(3);
+		return sliderStatus;
 
 	}
 
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
-		// TODO Anika&Kiren.  Compare current and previous tracking arrays to determine
-		// if specific button pressed.
-		return false;
+		if (buttonNbr == 12) {
+			return (button12Status == button12Previous);
+		} else {
+			return super.isButtonPressed(buttonNbr);
+		}
 	}
 
 	@Override
 	public boolean isButtonReleased(int buttonNbr) {
-		// TODO Anika&Kiren.  Compare current and previous tracking arrays to determine
-		// if specific button released.
-		return false;
+		return !isButtonPressed(buttonNbr);
 	}
 
 	@Override
 	public void updateStatus() {
-		// TODO Anika&Kiren.  Update current tracking status.
+		super.updateStatus();
+		button12Previous = button12Status;
+		button12Status = joyStick.getRawButton(12);
+		sliderStatus = sliderValue();
 	}
 
 }

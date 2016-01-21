@@ -68,10 +68,13 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	joyStick.updateStatus();
     	boolean Button1 = joyStick.isTriggerPressed();
     	if(Button1==true){
     	System.out.println("Gunner is a tool.");
     	System.out.println();
+    	} else {
+    		System.out.println("Gunner is cool!");
     	}
     }
     
