@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class LogitechJoystick {
 	private Joystick joyStick = null;
+	
 	public LogitechJoystick(Joystick joyStick){
 		super();
 		this.joyStick = joyStick;
