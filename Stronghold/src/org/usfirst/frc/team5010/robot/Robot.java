@@ -1,10 +1,9 @@
 
 package org.usfirst.frc.team5010.robot;
 
-import org.usfirst.frc.team5010.oi.LogAttackJoystick;
+import org.usfirst.frc.team5010.oi.JoystickManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,7 +19,8 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-	LogAttackJoystick joyStick = null;
+    JoystickManager joystickMgr = null;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -30,7 +30,10 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        joyStick = new LogAttackJoystick(new Joystick(1));
+
+        // Initialize joystick control
+        joystickMgr = new JoystickManager();
+        joystickMgr.initController();
     }
     
 	/**
@@ -67,11 +70,11 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	joyStick.updateStatus();
-    	boolean Button1 = joyStick.isTriggerPressed();
+    	joystickMgr.updateStatus();
+    	boolean Button1 = joystickMgr.isArmThingFired();
     	if(Button1==true){
-    	System.out.println("Gunner is a tool.");
-    	System.out.println();
+    		System.out.println("Gunner is a tool.");
+    		System.out.println();
     	} 
     }
     
