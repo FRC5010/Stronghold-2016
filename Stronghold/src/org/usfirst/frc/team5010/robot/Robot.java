@@ -72,9 +72,7 @@ public class Robot extends IterativeRobot {
     	if(Button1==true){
     	System.out.println("Gunner is a tool.");
     	System.out.println();
-    	} else {
-    		System.out.println("Gunner is cool!");
-    	}
+    	} 
     }
     
     /**
