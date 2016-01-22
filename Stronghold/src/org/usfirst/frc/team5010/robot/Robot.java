@@ -1,8 +1,7 @@
 
 package org.usfirst.frc.team5010.robot;
 
-import org.usfirst.frc.team5010.oi.LogitechJoystick;
-import org.usfirst.frc.team5010.oi.XboxJoystick;
+import org.usfirst.frc.team5010.oi.LogAttackJoystick;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,7 +20,7 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-	LogitechJoystick joyStick = null;
+	LogAttackJoystick joyStick = null;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -31,7 +30,7 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        joyStick = new LogitechJoystick(new Joystick(1));
+        joyStick = new LogAttackJoystick(new Joystick(1));
     }
     
 	/**

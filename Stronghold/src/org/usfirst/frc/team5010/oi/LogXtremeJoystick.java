@@ -2,7 +2,9 @@ package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class LogXtremeJoystick extends LogitechJoystick implements JoystickController {
+public class LogXtremeJoystick extends LogitechJoystick 
+	implements JoystickController {
+	
 	private Joystick joyStick;
 	private boolean button12Status;
 	private boolean button12Previous;
@@ -15,18 +17,16 @@ public class LogXtremeJoystick extends LogitechJoystick implements JoystickContr
 
 	public boolean isButton12Pressed() {
 		return isButtonPressed(12);
-
 	}
 
 	public double sliderValue() {
 		return sliderStatus;
-
 	}
 
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
 		if (buttonNbr == 12) {
-			return (button12Status == button12Previous);
+			return (button12Status && (button12Status != button12Previous));
 		} else {
 			return super.isButtonPressed(buttonNbr);
 		}
@@ -34,12 +34,17 @@ public class LogXtremeJoystick extends LogitechJoystick implements JoystickContr
 
 	@Override
 	public boolean isButtonReleased(int buttonNbr) {
-		return !isButtonPressed(buttonNbr);
+		if (buttonNbr == 12) {
+			return (!button12Status && (button12Status != button12Previous));
+		} else {
+			return super.isButtonReleased(buttonNbr);
+		}
 	}
 
 	@Override
 	public void updateStatus() {
 		super.updateStatus();
+		
 		button12Previous = button12Status;
 		button12Status = joyStick.getRawButton(12);
 		sliderStatus = sliderValue();

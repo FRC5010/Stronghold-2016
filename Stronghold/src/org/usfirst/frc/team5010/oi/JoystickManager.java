@@ -1,5 +1,9 @@
 package org.usfirst.frc.team5010.oi;
 
+import java.util.ArrayList;
+
+import edu.wpi.first.wpilibj.Joystick;
+
 /**
  * JoystickManager class that will be used during processing for determining
  * which joystick is controlling an action.
@@ -7,6 +11,7 @@ package org.usfirst.frc.team5010.oi;
  *
  */
 public class JoystickManager {
+	private ArrayList<JoystickController> joystickUsed = new ArrayList<JoystickController>();
 
 	/**
 	 * Function for initializing the individual joysticks and adding
@@ -14,7 +19,8 @@ public class JoystickManager {
 	 */
 	public void initController()
 	{
-		// TODO Add code for initializing control structure with joysticks used.
+		joystickUsed.add(new XboxJoystick(new Joystick(0)));
+		joystickUsed.add(new LogAttackJoystick(new Joystick(1)));
 	}
 	
 	/**
@@ -23,6 +29,13 @@ public class JoystickManager {
 	 */
 	public void updateStatus()
 	{
-		// TODO Add code for telling joysticks used to update their current status.
+		if (joystickUsed != null && joystickUsed.size() > 0)
+		{
+			for (int x = 0; x < joystickUsed.size(); x++)
+			{
+				JoystickController controller = joystickUsed.get(x);
+				controller.updateStatus();
+			}
+		}
 	}
 }
