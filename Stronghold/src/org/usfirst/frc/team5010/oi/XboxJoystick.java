@@ -2,7 +2,9 @@ package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class XboxJoystick implements JoystickController {
+public class XboxJoystick extends BaseJoystick 
+	implements JoystickController {
+	
 	private Joystick joyStick = null;
 
 	/**

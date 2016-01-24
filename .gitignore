@@ -1,0 +1,7 @@
+.class
+build/
+bin/
+dist/
+lib/
+native/
+caches/
