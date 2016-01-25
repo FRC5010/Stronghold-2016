@@ -2,7 +2,7 @@ package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class LogitechJoystick {
+public class LogitechJoystick implements JoystickController{
 	private Joystick joyStick = null;
 	
 	public LogitechJoystick(Joystick joyStick){
@@ -75,6 +75,21 @@ public class LogitechJoystick {
 	public double ZaxisValue(){
 		return joyStick.getRawAxis(2);
 				
+	}
+	@Override
+	public boolean isButtonPressed(int buttonNbr) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isButtonReleased(int buttonNbr) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void updateStatus() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
