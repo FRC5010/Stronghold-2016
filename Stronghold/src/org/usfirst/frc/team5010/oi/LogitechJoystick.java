@@ -2,7 +2,7 @@ package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public abstract class LogitechJoystick 
+public abstract class LogitechJoystick extends BaseJoystick
 	implements JoystickController {
 	
 	private Joystick joyStick = null;
