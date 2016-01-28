@@ -2,11 +2,10 @@
 package org.usfirst.frc.team5010.robot;
 
 import org.usfirst.frc.team5010.auto.AutoModeManager;
+import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
