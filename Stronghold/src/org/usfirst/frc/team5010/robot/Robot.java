@@ -1,11 +1,11 @@
 
 package org.usfirst.frc.team5010.robot;
 
+import org.usfirst.frc.team5010.auto.AutoModeManager;
+import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -15,25 +15,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-    final String defaultAuto = "Default";
-    final String customAuto = "My Auto";
-    String autoSelected;
-    SendableChooser chooser;
-    JoystickManager joystickMgr = null;
-    
+	AutoModeManager autoMgr;
+	JoystickManager joystickMgr = null;
+    DriveTrainManager driverTrain = null;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", defaultAuto);
-        chooser.addObject("My Auto", customAuto);
-        SmartDashboard.putData("Auto choices", chooser);
+    	// Initialize auto mode manager
+        AutoModeManager.init();
 
         // Initialize joystick control
         joystickMgr = new JoystickManager();
         joystickMgr.initController();
+        
+        driverTrain = new DriveTrainManager();
     }
     
 	/**
@@ -46,24 +43,14 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	autoSelected = (String) chooser.getSelected();
-//		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+    	autoMgr = AutoModeManager.get();
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	switch(autoSelected) {
-    	case customAuto:
-        //Put custom auto code here   
-            break;
-    	case defaultAuto:
-    	default:
-    	//Put default auto code here
-            break;
-    	}
+    	autoMgr.run();
     }
 
     /**
@@ -71,11 +58,14 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	joystickMgr.updateStatus();
-    	boolean Button1 = joystickMgr.isArmThingFired();
-    	if(Button1==true){
-    		System.out.println("Gunner is a tool.");
-    		System.out.println();
-    	} 
+    	// logicManager.updateRobotDriving();  - put this code in a LogicManager
+    		//double lPower = joystickMgr.getLeftDriver();
+    		//driverTrain.setLeftMotorPower(lPower);
+    	
+    		//double rPower = joystickMgr.getRightDriver();
+    		//driverTrain.setRightMotorPower(rPower);
+    	
+    	//logicManager.updateButtons();
     }
     
     /**
