@@ -1,10 +1,6 @@
 package org.usfirst.frc.team5010.drivetrain;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,16 +10,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveTrainManager implements PIDOutput {
-    private Victor leftMotor1 = new Victor(0);
+	// Define drive channels
+	private final int leftMotorChannel = 1;
+	private final int rightMotorChannel = 2;
+	private final int gyroChannel = 2;
+	
+    private Victor leftMotor1 = null;//new Victor(leftMotorChannel);
 //    private final Victor leftMotor2 = new Victor(2);
-    private Victor rightMotor1 = new Victor(1);
+    private Victor rightMotor1 = null;//new Victor(rightMotorChannel);
 //    private final Victor rightMotor2 = new Victor(3);
-    private AnalogInput channel = new AnalogInput(1);
-    private AnalogGyro gyro = new AnalogGyro(channel);
-    private PIDController pid = new PIDController(.1, 0, 0, gyro, this);
-    private SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftMotor1);
-    private SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightMotor1);
-    private boolean isPIDing = false;
+//    private AnalogInput channel = new AnalogInput(gyroChannel);
+//    private Gyro gyro = new Gyro(channel);
+//    private PIDController pid = new PIDController(.1, 0, 0, gyro, this);
+    //private SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftMotor1);
+    //private SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightMotor1);
+    private boolean isFullPower = false;
+    private final double autoPowerLevel = 0.75;
     
     private static final DriveTrainManager driveTrainInstance = new DriveTrainManager();
 
@@ -40,13 +42,18 @@ public class DriveTrainManager implements PIDOutput {
      * Default constructor.
      */
     public DriveTrainManager(){
-		gyro.setPIDSourceType(PIDSourceType.kRate);	// TODO Question the use of this value
-		pid.setOutputRange(-1, 1);
-		pid.enable();
+//		gyro.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);	// TODO Question the use of this value
+//		pid.setOutputRange(-1, 1);
+//		pid.enable();
     }
 
+    public void teleopInit() {
+    	leftMotor1 = new Victor(leftMotorChannel);
+    	rightMotor1 = new Victor(rightMotorChannel);
+    }
+    
     public void setForward(double power){
-		if(!isPIDing){
+		if(!isFullPower){
 		    powerLeftAuton(power);
 		    powerRightAuton(power);
 		}
@@ -57,46 +64,46 @@ public class DriveTrainManager implements PIDOutput {
     }
 
     public void setGyroAngle(double point){
-    	pid.setSetpoint(point);
+//    	pid.setSetpoint(point);
     }
     
     public void resetGyro(){
-		double error = pid.getError();
-		gyro.reset();
-		pid.setSetpoint(-error);
+//		double error = pid.getError();
+//		gyro.reset();
+//		pid.setSetpoint(-error);
     }
 
-    public void setPIDEnable(boolean enabled){
+    public void setIsFullPower(boolean enabled){
 		if (enabled){
-		    isPIDing = true;
+		    isFullPower = true;
 		}
 		else{
-		    isPIDing = false;
+		    isFullPower = false;
 		}
     }
 
     public void powerLeftAuton(double power){
-    	leftMotors.set(power);
-    	SmartDashboard.putNumber("Left power:", leftMotors.get());
+    	leftMotor1.set(power * autoPowerLevel);
+    	SmartDashboard.putNumber("Left power:", leftMotor1.get());
     }
  
     public void powerRightAuton(double power) {
-    	rightMotors.set(power);
-    	SmartDashboard.putNumber("Right power:", rightMotors.get());
+    	rightMotor1.set(power * autoPowerLevel);
+    	SmartDashboard.putNumber("Right power:", rightMotor1.get());
     }
     
     public void powerLeftNormal(double power){
-		leftMotors.set(power);
-		SmartDashboard.putNumber("Left power:", leftMotors.get());
+		leftMotor1.set(power);
+		SmartDashboard.putNumber("Left power:", leftMotor1.get());
     }
 
     public void powerRightNormal(double power){
-		rightMotors.set(power);
-		SmartDashboard.putNumber("Right power:", rightMotors.get());
+		rightMotor1.set(power);
+		SmartDashboard.putNumber("Right power:", rightMotor1.get());
     }
     
-    public boolean isPIDing(){
-    	return isPIDing;
+    public boolean isFullPower(){
+    	return isFullPower;
     }
 
 	@Override
