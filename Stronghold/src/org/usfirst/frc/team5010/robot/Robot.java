@@ -3,6 +3,7 @@ package org.usfirst.frc.team5010.robot;
 
 import org.usfirst.frc.team5010.auto.AutoModeManager;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
+import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -19,6 +20,7 @@ public class Robot extends IterativeRobot {
 	AutoModeManager autoMgr;
 	JoystickManager joystickMgr = null;
 	DriveTrainManager driveTrain = null;
+	private TankDriver tankDriver;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -62,20 +64,15 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		// TODO Auto-generated method stub
 		driveTrain.teleopInit();
-	}
+		tankDriver = new TankDriver(joystickMgr, driveTrain);
+	} 
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
 		joystickMgr.updateStatus();
-		// logicManager.updateRobotDriving(); - put this code in a LogicManager
-		double lPower = joystickMgr.getLeftDriver();
-		driveTrain.powerLeftNormal(lPower);
-
-		double rPower = joystickMgr.getRightDriver();
-		driveTrain.powerRightNormal(rPower);
-
+		tankDriver.update();
 		// logicManager.updateButtons();
 	}
 
