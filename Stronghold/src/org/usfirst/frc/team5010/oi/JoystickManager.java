@@ -52,4 +52,25 @@ public class JoystickManager {
 //		XboxJoystick right = (XboxJoystick) joystickUsed.get(0);
 		return driver.RYAxisValue();
 	}
+	
+	public double getLYAxisValue() {
+		return driver.LYaxisValue();
+	}
+	
+	public double getRYAxisValue() {
+		return driver.RYAxisValue();
+	}
+	
+	public boolean moveCastleArmUp() {
+		return driver.isXButtonPressed();
+	}
+	public boolean moveCastleArmDown() {
+		return driver.isYButtonPressed();
+	}
+	public boolean moveCamtiltIn() {
+		return driver.isLBButtonPressed();
+	}
+	public boolean moveCamtiltOut() {
+		return driver.isRBButtonPressed();
+	}
 }

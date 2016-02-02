@@ -6,6 +6,7 @@ import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,6 +22,7 @@ public class Robot extends IterativeRobot {
 	JoystickManager joystickMgr = null;
 	DriveTrainManager driveTrain = null;
 	private TankDriver tankDriver;
+	CameraServer server;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,6 +35,11 @@ public class Robot extends IterativeRobot {
 		// Initialize joystick control
 		joystickMgr = new JoystickManager();
 		joystickMgr.initController();
+		
+		server = CameraServer.getInstance();
+        server.setQuality(100);
+        server.startAutomaticCapture("cam0");
+    
 
 		driveTrain = new DriveTrainManager();
 		SmartDashboard.putNumber("name", 3.1415);
