@@ -12,13 +12,16 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  */
 public class JoystickManager {
-	private ArrayList<BaseJoystick> joystickUsed = new ArrayList<BaseJoystick>();
-	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
+	private ArrayList<BaseJoystick> joystickUsed = null;
+	private XboxJoystick driver = null;
 	/**
 	 * Function for initializing the individual joysticks and adding them to a
 	 * controlling structure.
 	 */
 	public void initController() {
+		driver = new XboxJoystick(new Joystick(0));
+		
+		joystickUsed = new ArrayList<BaseJoystick>();
 		//joystickUsed.add(new XboxJoystick(new Joystick(0)));
 		//joystickUsed.add(new LogAttackJoystick(new Joystick(1)));
 
@@ -51,5 +54,21 @@ public class JoystickManager {
 	public double getRightDriver() {
 //		XboxJoystick right = (XboxJoystick) joystickUsed.get(0);
 		return driver.RYAxisValue();
+	}
+	
+	public boolean moveCastleArmUp () {
+		return driver.isXButtonPressed();
+	}
+
+	public boolean moveCastleArmDown () {
+		return driver.isYButtonPressed();
+	}
+	
+	public boolean moveCamtiltIn () {
+		return driver.isLBButtonPressed();
+	}
+	
+	public boolean moveCamtiltOut () {
+		return driver.isRBButtonPressed();
 	}
 }
