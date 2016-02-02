@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5010.defenseArm;
 
-public class DefenseArmManager {
+import org.usfirst.frc.team5010.oi.JoystickManager;
 
+public class DefenseArmManager {
+	
 }
