@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class BoulderCapture {
 
+	// TODO: Add Solenoid class and call set function in apropos places in moveUp/Down
+	
 	private enum ArmState {
 		CAPTURE, LOW_GOAL, HIGH_GOAL
 	};

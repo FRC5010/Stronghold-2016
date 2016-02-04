@@ -17,6 +17,8 @@ public class BoulderHandler implements LogicManager {
 		this.bouldrWhls = bouldrWhls;
 	}
 
+	// TODO: Add smartdashboard output to update function to see which option is being used.
+	
 	@Override
 	public void update() {
 		double upDown = joystickMgr.moveIntakeArmUpDown();

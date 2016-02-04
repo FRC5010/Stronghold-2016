@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  */
 public class JoystickManager {
+	// TODO: Add smartdashoard output to see values coming from joystick buttons
+	
 	private ArrayList<BaseJoystick> joystickUsed = new ArrayList<BaseJoystick>();
 	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
 	private XboxJoystick operator = new XboxJoystick(new Joystick(1));

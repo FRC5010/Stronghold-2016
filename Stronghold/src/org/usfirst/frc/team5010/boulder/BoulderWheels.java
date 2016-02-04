@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class BoulderWheels {
 
+	// TODO: Add SmartDashboard output to functions to see values
+	
 	private Victor motorLeft;
 	private Victor motorRight;
 	
