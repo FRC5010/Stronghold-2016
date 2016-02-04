@@ -2,8 +2,12 @@ package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class XboxJoystick implements JoystickController {
+public class XboxJoystick extends BaseJoystick 
+	implements JoystickController {
+	
 	private Joystick joyStick = null;
+	private boolean[] currentButtonStatus = new boolean[12];
+	private boolean[] previousButtonStatus = new boolean[12];
 
 	/**
 	 * Constructor override.
@@ -98,21 +102,31 @@ public class XboxJoystick implements JoystickController {
 
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
-		// TODO Nick&Mychajlo.  Compare current and previous tracking arrays to determine
-		// if specific button pressed.
+		if (currentButtonStatus[buttonNbr] 
+				&& currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr])
+		{
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isButtonReleased(int buttonNbr) {
-		// TODO Nick&Mychajlo.  Compare current and previous tracking arrays to determine
-		// if specific button released.
+		if (!currentButtonStatus[buttonNbr]
+				&& currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr])
+		{
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void updateStatus() {
-		// TODO Nick&Mychajlo.  Update current tracking status.
+		// Since there are only 11 buttons (and start at 1), only process 1 - 11.
+		for(int i = 1; i < 12; ++i){
+			previousButtonStatus[i] = currentButtonStatus[i];
+			currentButtonStatus[i] = joyStick.getRawButton(i);
+		}
 
 	}
 
