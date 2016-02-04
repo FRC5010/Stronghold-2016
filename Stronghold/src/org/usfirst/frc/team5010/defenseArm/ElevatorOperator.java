@@ -1,3 +1,5 @@
+//TODO Remove??? 2/4/16
+
 package org.usfirst.frc.team5010.defenseArm;
 
 import org.usfirst.frc.team5010.oi.JoystickManager;
@@ -10,7 +12,7 @@ public class ElevatorOperator implements LogicManager{
 	}
 	@Override
 	public void update() {
-		this.joystickManager.getLYAxisValue();
+//		this.joystickManager.getLYAxisValue();
 		// Figure out what to do with AxisValue;
 	}
 }

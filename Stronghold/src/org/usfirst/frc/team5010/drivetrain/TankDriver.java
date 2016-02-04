@@ -16,10 +16,10 @@ public class TankDriver implements LogicManager {
 	@Override
 	public void update() {
 		// logicManager.updateRobotDriving(); - put this code in a LogicManager
-		double lPower = joystickMgr.getLeftDriver();
+		double lPower = joystickMgr.tankDriveLeft();
 		driveTrainMgr.powerLeftNormal(lPower);
 
-		double rPower = joystickMgr.getRightDriver();
+		double rPower = joystickMgr.tankDriveRight();
 		driveTrainMgr.powerRightNormal(rPower);
 
 	}

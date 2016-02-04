@@ -15,6 +15,7 @@ public class DriveTrainManager implements PIDOutput {
 	private final int rightMotorChannel = 2;
 	private final int gyroChannel = 2;
 	
+	
     private Victor leftMotor1 = null;//new Victor(leftMotorChannel);
 //    private final Victor leftMotor2 = new Victor(2);
     private Victor rightMotor1 = null;//new Victor(rightMotorChannel);
@@ -22,8 +23,8 @@ public class DriveTrainManager implements PIDOutput {
 //    private AnalogInput channel = new AnalogInput(gyroChannel);
 //    private Gyro gyro = new Gyro(channel);
 //    private PIDController pid = new PIDController(.1, 0, 0, gyro, this);
-    //private SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftMotor1);
-    //private SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightMotor1);
+    private SpeedControllerGroup leftMotors;
+    private SpeedControllerGroup rightMotors;
     private boolean isFullPower = false;
     private final double autoPowerLevel = 0.75;
     

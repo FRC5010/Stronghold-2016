@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class JoystickManager {
 	private ArrayList<BaseJoystick> joystickUsed = new ArrayList<BaseJoystick>();
 	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
+	private XboxJoystick operator = new XboxJoystick(new Joystick(1));
 	/**
 	 * Function for initializing the individual joysticks and adding them to a
 	 * controlling structure.
@@ -35,42 +36,85 @@ public class JoystickManager {
 //				controller.updateStatus();
 //			}
 			driver.updateStatus();
+			operator.updateStatus();
 //		}
 	}
 
-	public boolean isArmThingFired() {
-		LogAttackJoystick joySt = (LogAttackJoystick) joystickUsed.get(1);
-		return joySt.isButtonPressed(1);
-	}
-
-	public double getLeftDriver() {
+	public double tankDriveLeft() {
 //		XboxJoystick left = (XboxJoystick) joystickUsed.get(0);
 		return driver.LYaxisValue();
 	}
 
-	public double getRightDriver() {
+	public double tankDriveRight() {
 //		XboxJoystick right = (XboxJoystick) joystickUsed.get(0);
-		return driver.RYAxisValue();
+		return driver.RYaxisValue();
 	}
 	
-	public double getLYAxisValue() {
-		return driver.LYaxisValue();
+	/// TODO Remove??? 2/4/16
+//	public double getLYAxisValue() {
+//		return driver.LYaxisValue();
+//	}
+//	
+//	public double getRYAxisValue() {
+//		return driver.RYaxisValue();
+//	}
+//	public double elevatorMovement() {
+//	return operator.LYaxisValue();
+//	}
+//	public double defenseArm() { 
+//		return operator.RYaxisValue();
+//	}
+//	public double tankDriveLeft() {
+//		return driver.LYaxisValue();
+//	}
+//	public double tankDriveRight() {
+//		return driver.RYaxisValue();
+//	}
+	// TODO Remove??? 2/4/16
+//	public boolean selectCastleScale() {
+//		return operator.isBButtonPressed();
+//	}
+//	public boolean liftRobot() {
+//		return operator.isYButtonPressed();
+//	}
+	
+	/**
+	 * Spin up the boulder intake wheels.
+	 * @return double
+	 */
+	public double spinBoulderWheels() {
+		return operator.LYaxisValue();
 	}
 	
-	public double getRYAxisValue() {
-		return driver.RYAxisValue();
+	/**
+	 * Move the intake arm up and down.
+	 * @return double
+	 */
+	public double moveIntakeArmUpDown() {
+		return operator.RYaxisValue();
 	}
 	
-	public boolean moveCastleArmUp() {
-		return driver.isXButtonPressed();
+	/**
+	 * Piston punch out.
+	 * @return boolean
+	 */
+	public boolean pistonPuncher() {
+		return operator.isAButtonPressed();
 	}
-	public boolean moveCastleArmDown() {
-		return driver.isYButtonPressed();
+	
+	/**
+	 * Spin boulder intakearm wheels in.
+	 * @return boolean
+	 */
+	public boolean CaptureBoulder() {
+		return operator.isLBButtonPressed();
 	}
-	public boolean moveCamtiltIn() {
-		return driver.isLBButtonPressed();
-	}
-	public boolean moveCamtiltOut() {
-		return driver.isRBButtonPressed();
+	
+	/**
+	 * Spin boulder intakearm wheels out.
+	 * @return boolean
+	 */
+	public boolean ShootBoulder() {
+		return operator.isRBButtonPressed();
 	}
 }

@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team5010.robot;
 
-import org.usfirst.frc.team5010.auto.AutoModeManager;
+import org.usfirst.frc.team5010.auto.AutoModeManager;  
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
