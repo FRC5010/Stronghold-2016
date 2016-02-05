@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team5010.robot;
 
-import org.usfirst.frc.team5010.auto.AutoModeManager;
+import org.usfirst.frc.team5010.auto.AutoModeManager;  
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	// TODO: Add classes and initialize boulder handler in teleopInit
+	
 	AutoModeManager autoMgr;
 	JoystickManager joystickMgr = null;
 	DriveTrainManager driveTrain = null;
