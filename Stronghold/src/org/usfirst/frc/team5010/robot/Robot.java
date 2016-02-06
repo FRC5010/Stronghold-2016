@@ -1,11 +1,14 @@
 
 package org.usfirst.frc.team5010.robot;
 
-import org.usfirst.frc.team5010.auto.AutoModeManager;
+import org.usfirst.frc.team5010.auto.AutoModeManager;  
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
+import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -15,64 +18,78 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	// TODO: Add classes and initialize boulder handler in teleopInit
+	
 	AutoModeManager autoMgr;
 	JoystickManager joystickMgr = null;
-    DriveTrainManager driverTrain = null;
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-    	// Initialize auto mode manager
-        AutoModeManager.init();
+	DriveTrainManager driveTrain = null;
+	private TankDriver tankDriver;
+	CameraServer server;
 
-        // Initialize joystick control
-        joystickMgr = new JoystickManager();
-        joystickMgr.initController();
-        
-        driverTrain = new DriveTrainManager();
-    }
-    
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString line to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional strings.
-	 * If using the SendableChooser make sure to add them to the chooser code above as well.
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
 	 */
-    public void autonomousInit() {
-    	autoMgr = AutoModeManager.get();
-    }
+	public void robotInit() {
+		// Initialize auto mode manager
+		AutoModeManager.init();
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-    	autoMgr.run();
-    }
+		// Initialize joystick control
+		joystickMgr = new JoystickManager();
+		joystickMgr.initController();
+		
+		server = CameraServer.getInstance();
+        server.setQuality(100);
+        server.startAutomaticCapture("cam0");
+    
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-    	joystickMgr.updateStatus();
-    	// logicManager.updateRobotDriving();  - put this code in a LogicManager
-    		//double lPower = joystickMgr.getLeftDriver();
-    		//driverTrain.setLeftMotorPower(lPower);
-    	
-    		//double rPower = joystickMgr.getRightDriver();
-    		//driverTrain.setRightMotorPower(rPower);
-    	
-    	//logicManager.updateButtons();
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-    
-    }
-    
+		driveTrain = new DriveTrainManager();
+		SmartDashboard.putNumber("name", 3.1415);
+	}
+
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString line to get the auto name from the text box below the Gyro
+	 *
+	 * You can add additional auto modes by adding additional comparisons to the
+	 * switch structure below with additional strings. If using the
+	 * SendableChooser make sure to add them to the chooser code above as well.
+	 */
+	public void autonomousInit() {
+		autoMgr = AutoModeManager.get();
+	}
+
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic() {
+		autoMgr.run();
+	}
+
+	@Override
+	public void teleopInit() {
+		// TODO Auto-generated method stub
+		driveTrain.teleopInit();
+		tankDriver = new TankDriver(joystickMgr, driveTrain);
+	} 
+
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		joystickMgr.updateStatus();
+		tankDriver.update();
+		// logicManager.updateButtons();
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+
+	}
+
 }

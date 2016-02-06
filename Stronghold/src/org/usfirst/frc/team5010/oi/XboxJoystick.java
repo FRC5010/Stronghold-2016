@@ -95,7 +95,7 @@ public class XboxJoystick extends BaseJoystick
 
 	}
 
-	public double RYAxisValue() {
+	public double RYaxisValue() {
 		return joyStick.getRawAxis(5);
 
 	}
