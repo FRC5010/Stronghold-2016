@@ -8,36 +8,39 @@ public class BoulderHandler implements LogicManager {
 	private BoulderCapture bouldrCptr;
 	private BoulderShooter bouldrShtr;
 	private BoulderWheels bouldrWhls;
-
-	public BoulderHandler(JoystickManager joystickMgr, BoulderCapture bouldrCptr, BoulderShooter bouldrShtr,
-			BoulderWheels bouldrWhls) {
+	private final double DEAD_ZONE = 0.2;
+	
+	public BoulderHandler(JoystickManager joystickMgr) {
 		this.joystickMgr = joystickMgr;
-		this.bouldrCptr = bouldrCptr;
-		this.bouldrShtr = bouldrShtr;
-		this.bouldrWhls = bouldrWhls;
+		this.bouldrCptr = new BoulderCapture();
+		this.bouldrShtr = new BoulderShooter();
+		this.bouldrWhls = new BoulderWheels();
 	}
 
 	// TODO: Add smartdashboard output to update function to see which option is being used.
 	
 	@Override
 	public void update() {
-		double upDown = joystickMgr.moveIntakeArmUpDown();
-		if ( upDown > 0.1) {
+		if ( joystickMgr.moveBoulderIntakeUp() ) {
 			bouldrCptr.moveUp();
-		}else if( upDown < -0.1){
+		}else if( joystickMgr.moveBoulderIntakeDown() ){
 			bouldrCptr.moveDown(); 
 		}
-		boolean isCaptureBoulderPressed = joystickMgr.CaptureBoulder();
-		if (isCaptureBoulderPressed) {
-			bouldrWhls.SpinIntake(1.0);
-		} else {
-			boolean isShootBoulderPressed = joystickMgr.ShootBoulder();
-			if (isShootBoulderPressed) {
-				bouldrWhls.SpinOuttake(1.0);
-				bouldrShtr.doShooter();
-			}
-			// TODO Auto-generated method stub
+		// Shooter will not fire unless there is at least some power to wheels
+		boolean isShootBoulderPressed = joystickMgr.ShootBoulder();
+		if (isShootBoulderPressed) {
+			bouldrShtr.doShooter();
+		} else if (joystickMgr.RetractShooter()) {
+			bouldrShtr.retract();
+		}
 
+		double builderWheelInput = joystickMgr.spinBoulderWheels();
+		if (builderWheelInput < -DEAD_ZONE) {
+			bouldrWhls.SpinIntake(builderWheelInput);
+		} else {
+			if (builderWheelInput > DEAD_ZONE) {
+				bouldrWhls.SpinIntake(builderWheelInput);			
+			}
 		}
 
 	}
