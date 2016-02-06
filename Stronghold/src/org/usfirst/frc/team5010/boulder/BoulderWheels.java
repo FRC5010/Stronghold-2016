@@ -10,8 +10,8 @@ public class BoulderWheels {
 	private Victor motorRight;
 	
 	public BoulderWheels() {
-		this.motorLeft = new Victor(8);
-		this.motorRight = new Victor(9);
+		this.motorLeft = new Victor(2);
+		this.motorRight = new Victor(3);
 	}
 	
 	public void SpinIntake(double power) {

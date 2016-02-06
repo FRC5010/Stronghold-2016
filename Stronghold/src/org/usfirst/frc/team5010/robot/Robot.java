@@ -1,13 +1,16 @@
 
 package org.usfirst.frc.team5010.robot;
 
-import org.usfirst.frc.team5010.auto.AutoModeManager;  
+import org.usfirst.frc.team5010.auto.AutoModeManager;
+import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -20,12 +23,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	// TODO: Add classes and initialize boulder handler in teleopInit
 	
-	AutoModeManager autoMgr;
-	JoystickManager joystickMgr = null;
-	DriveTrainManager driveTrain = null;
+	private AutoModeManager autoMgr;
+	private JoystickManager joystickMgr = null;
+	private DriveTrainManager driveTrain = null;
+	private BoulderHandler boulderHndlr = null;
 	private TankDriver tankDriver;
 	CameraServer server;
-
+	private Gyro headingGyro;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -42,10 +47,14 @@ public class Robot extends IterativeRobot {
         server.setQuality(100);
         server.startAutomaticCapture("cam0");
     
+        headingGyro = new ADXRS450_Gyro();
 
 		driveTrain = new DriveTrainManager();
-		SmartDashboard.putNumber("name", 3.1415);
-	}
+		driveTrain.roboInit();
+		tankDriver = new TankDriver(joystickMgr, driveTrain);
+		
+		boulderHndlr = new BoulderHandler(joystickMgr);
+		}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -72,8 +81,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		// TODO Auto-generated method stub
-		driveTrain.teleopInit();
-		tankDriver = new TankDriver(joystickMgr, driveTrain);
+		
 	} 
 
 	/**
@@ -82,7 +90,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		joystickMgr.updateStatus();
 		tankDriver.update();
+		boulderHndlr.update();
 		// logicManager.updateButtons();
+		
+		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());
 	}
 
 	/**
