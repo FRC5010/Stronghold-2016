@@ -1,9 +1,11 @@
 package org.usfirst.frc.team5010.auto;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoModeManager {
+public class AutoModeManager implements AutoModeInterface {
 	// Static parts of the class that are used to determine
 	// what kind of sub-class to create.
 	private static final String spybotMode = "Spy-Bot Mode";
@@ -57,7 +59,14 @@ public class AutoModeManager {
 		return instance;
 	}
 
+	@Override
 	public void run() {
 
+	}
+
+	@Override
+	public void initAuton() {
+		// TODO Auto-generated method stub
+		
 	}
 }
