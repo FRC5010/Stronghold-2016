@@ -1,10 +1,10 @@
 package org.usfirst.frc.team5010.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class XboxJoystick extends BaseJoystick 
-	implements JoystickController {
-	
+public class XboxJoystick extends BaseJoystick implements JoystickController {
+
 	private Joystick joyStick = null;
 	private boolean[] currentButtonStatus = new boolean[12];
 	private boolean[] previousButtonStatus = new boolean[12];
@@ -21,7 +21,7 @@ public class XboxJoystick extends BaseJoystick
 	}
 
 	public boolean isAButtonPressed() {
-		return joyStick.getRawButton(1);
+		return isButtonPressed(1);
 
 	}
 
@@ -36,7 +36,7 @@ public class XboxJoystick extends BaseJoystick
 	}
 
 	public boolean isYButtonPressed() {
-		return joyStick.getRawButton(4);
+		return isButtonPressed(4);
 
 	}
 
@@ -46,7 +46,7 @@ public class XboxJoystick extends BaseJoystick
 	}
 
 	public boolean isRBButtonPressed() {
-		return joyStick.getRawButton(6);
+		return isButtonPressed(6);
 
 	}
 
@@ -100,34 +100,56 @@ public class XboxJoystick extends BaseJoystick
 
 	}
 
+	public int POVValue() {
+		return joyStick.getPOV(0);
+	}
+
+	// TODO Insert a value for POVValue. This is a method for the D-Pad, used
+	// for tilting the piston.
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
-		if (currentButtonStatus[buttonNbr] 
-				&& currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr])
-		{
-			return true;
+		// If buttons are equal, return false (button was previously pressed or released)
+		if (currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr]) {
+			// update previous status so it only registers once
+			previousButtonStatus[buttonNbr] = currentButtonStatus[buttonNbr];
+			// Indicate whether we can perform the expected action
+			if (currentButtonStatus[buttonNbr]) {
+				// Next time button state will equal and won't fire repeatedly
+				SmartDashboard.putNumber("Button Pressed:", buttonNbr);
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public boolean isButtonReleased(int buttonNbr) {
-		if (!currentButtonStatus[buttonNbr]
-				&& currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr])
-		{
-			return true;
+		// If buttons are equal, return false (button was previously pressed or released)
+		if (currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr]) {
+			// update previous status so it only registers once
+			previousButtonStatus[buttonNbr] = currentButtonStatus[buttonNbr];
+			// Indicate whether we can perform the expected action
+			if (!currentButtonStatus[buttonNbr]) {
+				// Next time button state will equal and won't fire repeatedly
+				SmartDashboard.putNumber("Button Released:", buttonNbr);
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public void updateStatus() {
-		// Since there are only 11 buttons (and start at 1), only process 1 - 11.
-		for(int i = 1; i < 12; ++i){
-			previousButtonStatus[i] = currentButtonStatus[i];
+		// Since there are only 11 buttons (and start at 1), only process 1 -
+		// 11.
+		for (int i = 1; i < 12; ++i) {
 			currentButtonStatus[i] = joyStick.getRawButton(i);
 		}
 
+	}
+
+	public boolean isRBButtonReleased() {
+		return isButtonReleased(6);
 	}
 
 }

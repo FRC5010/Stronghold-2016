@@ -10,7 +10,8 @@ public class BoulderCapture {
 		CAPTURE, LOW_GOAL, HIGH_GOAL
 	};
 
-	private ArmState armState;
+	// TODO: Initialize this by detecting actual state from Robot
+	private ArmState armState = ArmState.CAPTURE;
 
 	public void doCapture() {
 

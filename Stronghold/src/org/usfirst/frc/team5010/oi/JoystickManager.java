@@ -3,6 +3,7 @@ package org.usfirst.frc.team5010.oi;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * JoystickManager class that will be used during processing for determining
@@ -13,17 +14,18 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class JoystickManager {
 	// TODO: Add smartdashoard output to see values coming from joystick buttons
-	
+
 	private ArrayList<BaseJoystick> joystickUsed = new ArrayList<BaseJoystick>();
 	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
-	private XboxJoystick operator = new XboxJoystick(new Joystick(1));
+	private XboxJoystick operator = driver;//new XboxJoystick(new Joystick(1));
+
 	/**
 	 * Function for initializing the individual joysticks and adding them to a
 	 * controlling structure.
 	 */
 	public void initController() {
-		//joystickUsed.add(new XboxJoystick(new Joystick(0)));
-		//joystickUsed.add(new LogAttackJoystick(new Joystick(1)));
+		// joystickUsed.add(new XboxJoystick(new Joystick(0)));
+		// joystickUsed.add(new LogAttackJoystick(new Joystick(1)));
 
 	}
 
@@ -32,91 +34,141 @@ public class JoystickManager {
 	 * their individual tracking statuses.
 	 */
 	public void updateStatus() {
-//		if (joystickUsed != null && joystickUsed.size() > 0) {
-//			for (int x = 0; x < joystickUsed.size(); x++) {
-//				JoystickController controller = joystickUsed.get(x);
-//				controller.updateStatus();
-//			}
-			driver.updateStatus();
-			operator.updateStatus();
-//		}
+		// if (joystickUsed != null && joystickUsed.size() > 0) {
+		// for (int x = 0; x < joystickUsed.size(); x++) {
+		// JoystickController controller = joystickUsed.get(x);
+		// controller.updateStatus();
+		// }
+		driver.updateStatus();
+		operator.updateStatus();
+		// }
 	}
 
 	public double tankDriveLeft() {
-//		XboxJoystick left = (XboxJoystick) joystickUsed.get(0);
-		return driver.LYaxisValue();
+		// XboxJoystick left = (XboxJoystick) joystickUsed.get(0);
+		double LYaxisValue = 0;
+		LYaxisValue = driver.LYaxisValue();
+		SmartDashboard.putNumber("Tank Drive Left:", LYaxisValue);
+		return LYaxisValue;
+		
 	}
 
 	public double tankDriveRight() {
-//		XboxJoystick right = (XboxJoystick) joystickUsed.get(0);
-		return driver.RYaxisValue();
+		// XboxJoystick right = (XboxJoystick) joystickUsed.get(0);
+		double RYaxisValue = 0;
+		RYaxisValue = driver.RYaxisValue();
+		SmartDashboard.putNumber("Tank Drive Right:", RYaxisValue);
+		return RYaxisValue;
+	
+		
 	}
-	
+
 	/// TODO Remove??? 2/4/16
-//	public double getLYAxisValue() {
-//		return driver.LYaxisValue();
-//	}
-//	
-//	public double getRYAxisValue() {
-//		return driver.RYaxisValue();
-//	}
-//	public double elevatorMovement() {
-//	return operator.LYaxisValue();
-//	}
-//	public double defenseArm() { 
-//		return operator.RYaxisValue();
-//	}
-//	public double tankDriveLeft() {
-//		return driver.LYaxisValue();
-//	}
-//	public double tankDriveRight() {
-//		return driver.RYaxisValue();
-//	}
+	// public double getLYAxisValue() {
+	// return driver.LYaxisValue();
+	// }
+	//
+	// public double getRYAxisValue() {
+	// return driver.RYaxisValue();
+	// }
+	// public double elevatorMovement() {
+	// return operator.LYaxisValue();
+	// }
+	// public double defenseArm() {
+	// return operator.RYaxisValue();
+	// }
+	// public double tankDriveLeft() {
+	// return driver.LYaxisValue();
+	// }
+	// public double tankDriveRight() {
+	// return driver.RYaxisValue();
+	// }
 	// TODO Remove??? 2/4/16
-//	public boolean selectCastleScale() {
-//		return operator.isBButtonPressed();
-//	}
-//	public boolean liftRobot() {
-//		return operator.isYButtonPressed();
-//	}
-	
+	// public boolean selectCastleScale() {
+	// return operator.isBButtonPressed();
+	// }
+	// public boolean liftRobot() {
+	// return operator.isYButtonPressed();
+	// }
+
 	/**
 	 * Spin up the boulder intake wheels.
+	 * 
 	 * @return double
 	 */
 	public double spinBoulderWheels() {
-		return operator.LYaxisValue();
+		double LYaxisValue = 0;
+		LYaxisValue = operator.LYaxisValue();
+		SmartDashboard.putNumber("Boulder Wheel Spin", LYaxisValue);
+		return LYaxisValue;
 	}
-	
-	/**
-	 * Move the intake arm up and down.
-	 * @return double
-	 */
-	public double moveIntakeArmUpDown() {
-		return operator.RYaxisValue();
-	}
+
 	
 	/**
 	 * Piston punch out.
+	 * 
 	 * @return boolean
 	 */
 	public boolean pistonPuncher() {
-		return operator.isAButtonPressed();
+		boolean aButtonValue = false;
+		aButtonValue = operator.isAButtonPressed();
+		SmartDashboard.putBoolean("Piston Punch Value", aButtonValue);
+		return aButtonValue;
 	}
-	
+
 	/**
 	 * Spin boulder intakearm wheels in.
+	 * 
 	 * @return boolean
 	 */
 	public boolean CaptureBoulder() {
-		return operator.isLBButtonPressed();
+		boolean lBButtonValue = false;
+		lBButtonValue = operator.isLBButtonPressed();
+		SmartDashboard.putBoolean("Capture Boulder Value", lBButtonValue);
+		return lBButtonValue;
 	}
-	
+
 	/**
 	 * Spin boulder intakearm wheels out.
+	 * 
 	 * @return boolean
 	 */
 	public boolean ShootBoulder() {
-		return operator.isRBButtonPressed();
+		boolean rBButtonValue = false;
+		rBButtonValue = operator.isRBButtonPressed();
+		SmartDashboard.putBoolean("Shoot Boulder Value", rBButtonValue);
+		return rBButtonValue;
+	}
+	
+	/**
+	 * Move boulder launcher between positions.
+	 * 
+	 * @return boolean
+	 */
+	public boolean moveBoulderIntakeUp() {
+		boolean moveUp = false;
+		moveUp = operator.isYButtonPressed();
+		SmartDashboard.putBoolean("Intake Move Up", moveUp);
+		return moveUp;
+	}
+
+	/**
+	 * Move boulder launcher between positions.
+	 * 
+	 * @return boolean
+	 */
+	public boolean moveBoulderIntakeDown() {
+		boolean moveDown = false;
+		moveDown = operator.isAButtonPressed();
+		SmartDashboard.putBoolean("Intake Move Down", moveDown);
+		return moveDown;
+	}
+
+	public boolean RetractShooter() {
+		boolean rBButtonValue = false;
+		rBButtonValue = operator.isRBButtonReleased();
+		SmartDashboard.putBoolean("Shoot Boulder Value", rBButtonValue);
+		return rBButtonValue;
 	}
 }
+ 
