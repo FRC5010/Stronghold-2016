@@ -7,11 +7,8 @@ import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,7 +26,6 @@ public class Robot extends IterativeRobot {
 	private BoulderHandler boulderHndlr = null;
 	private TankDriver tankDriver;
 	CameraServer server;
-	private Gyro headingGyro;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,8 +43,6 @@ public class Robot extends IterativeRobot {
         server.setQuality(100);
         server.startAutomaticCapture("cam0");
     
-        headingGyro = new ADXRS450_Gyro();
-
 		driveTrain = new DriveTrainManager();
 		driveTrain.roboInit();
 		tankDriver = new TankDriver(joystickMgr, driveTrain);
@@ -69,6 +63,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		autoMgr = AutoModeManager.get();
+		autoMgr.initAuton();
 	}
 
 	/**
@@ -103,7 +98,6 @@ public class Robot extends IterativeRobot {
 		boulderHndlr.update();
 		// logicManager.updateButtons();
 		
-		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());
 	}
 
 	/**
