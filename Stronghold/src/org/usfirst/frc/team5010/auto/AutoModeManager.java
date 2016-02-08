@@ -1,9 +1,11 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoModeManager {
+public class AutoModeManager implements AutoModeInterface {
 	// Static parts of the class that are used to determine
 	// what kind of sub-class to create.
 	private static final String spybotMode = "Spy-Bot Mode";
@@ -57,7 +59,14 @@ public class AutoModeManager {
 		return instance;
 	}
 
-	public void run() {
+	@Override
+	public void run(DriveTrainManager driveTrain) {
 
+	}
+
+	@Override
+	public void initAuton() {
+		// TODO Auto-generated method stub
+		
 	}
 }
