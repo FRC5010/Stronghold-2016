@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 		tankDriver = new TankDriver(joystickMgr, driveTrain);
 		
 		boulderHndlr = new BoulderHandler(joystickMgr);
-		}
+	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -75,7 +75,17 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		autoMgr.run();
+		while (isAutonomous() && isEnabled())
+		{
+    	    try {
+    	    	Thread.sleep(5);
+    	    }
+    	    catch (InterruptedException ie) {
+    	    	//do nothing
+    	    }
+
+    	    autoMgr.run(driveTrain);
+		}
 	}
 
 	@Override
