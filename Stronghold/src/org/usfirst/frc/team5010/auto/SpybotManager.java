@@ -4,11 +4,12 @@ import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpybotManager extends AutoModeManager {
 	private Gyro headingGyro = null;
 	private long autonStartTime;
-	private long FORWARDTIME = 2000;
+	private long FORWARDTIME = 20000;
 	
 	/**
 	 * Default constructor.
@@ -36,11 +37,7 @@ public class SpybotManager extends AutoModeManager {
 			driveTrain.powerLeftAuton(0);
 			driveTrain.powerRightAuton(0);
 		}
-//      while (isAutonomous()) {
-//         double angle = gyro.getAngle(); // get current heading
-//         myRobot.drive(-1.0, -angle*Kp); // drive towards heading 0
-//         Timer.delay(0.004);
-//      }
+		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());
 	}
 	
 	/**
@@ -77,6 +74,9 @@ public class SpybotManager extends AutoModeManager {
 	        rightOutput = powerLevel;
 	    }
 	    
+    	SmartDashboard.putNumber("powerLeftAuton", leftOutput);
+    	SmartDashboard.putNumber("powerRightAuton", rightOutput);
+    	
 		driveTrain.powerLeftAuton(leftOutput);
 		driveTrain.powerRightAuton(rightOutput);
 	}
