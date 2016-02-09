@@ -3,6 +3,8 @@ package org.usfirst.frc.team5010.boulder;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 import org.usfirst.frc.team5010.robot.LogicManager;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class BoulderHandler implements LogicManager {
 	private JoystickManager joystickMgr;
 	private BoulderCapture bouldrCptr;
@@ -15,6 +17,8 @@ public class BoulderHandler implements LogicManager {
 		this.bouldrCptr = new BoulderCapture();
 		this.bouldrShtr = new BoulderShooter();
 		this.bouldrWhls = new BoulderWheels();
+		SmartDashboard.putString("Boulder Wheels", "Off");
+		bouldrWhls.Stop();
 	}
 
 	// TODO: Add smartdashboard output to update function to see which option is being used.
@@ -34,12 +38,18 @@ public class BoulderHandler implements LogicManager {
 			bouldrShtr.retract();
 		}
 
-		double builderWheelInput = joystickMgr.spinBoulderWheels();
-		if (builderWheelInput < -DEAD_ZONE) {
-			bouldrWhls.SpinIntake(builderWheelInput);
+		if (joystickMgr.spinBoulderWheelsIn()) {
+			if ( !joystickMgr.spinBoulderWheelsOut() ) {
+				SmartDashboard.putString("Boulder Wheels", "Capturing");
+				bouldrWhls.SpinIntake();
+			}
 		} else {
-			if (builderWheelInput > DEAD_ZONE) {
-				bouldrWhls.SpinIntake(builderWheelInput);			
+			if (joystickMgr.spinBoulderWheelsOut()) {
+				SmartDashboard.putString("Boulder Wheels", "Shooting");
+				bouldrWhls.SpinOuttake();			
+			} else {
+				SmartDashboard.putString("Boulder Wheels", "Off");
+				bouldrWhls.Stop();
 			}
 		}
 

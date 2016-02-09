@@ -63,34 +63,6 @@ public class JoystickManager {
 		
 	}
 
-	/// TODO Remove??? 2/4/16
-	// public double getLYAxisValue() {
-	// return driver.LYaxisValue();
-	// }
-	//
-	// public double getRYAxisValue() {
-	// return driver.RYaxisValue();
-	// }
-	// public double elevatorMovement() {
-	// return operator.LYaxisValue();
-	// }
-	// public double defenseArm() {
-	// return operator.RYaxisValue();
-	// }
-	// public double tankDriveLeft() {
-	// return driver.LYaxisValue();
-	// }
-	// public double tankDriveRight() {
-	// return driver.RYaxisValue();
-	// }
-	// TODO Remove??? 2/4/16
-	// public boolean selectCastleScale() {
-	// return operator.isBButtonPressed();
-	// }
-	// public boolean liftRobot() {
-	// return operator.isYButtonPressed();
-	// }
-
 	/**
 	 * Spin up the boulder intake wheels.
 	 * 
@@ -103,7 +75,20 @@ public class JoystickManager {
 		return LYaxisValue;
 	}
 
+	public boolean spinBoulderWheelsIn() {
+		boolean spinIn = false;
+		spinIn = operator.RTrigValue() > 0.5;
+		SmartDashboard.putBoolean("Boulder Wheels Spinning Inward", spinIn);
+		return spinIn;
+	}
 	
+	public boolean spinBoulderWheelsOut() {
+		boolean spinOut = false;
+		spinOut = operator.LTrigValue() > 0.5;
+		SmartDashboard.putBoolean("Boulder Wheels Spinning Outward", spinOut);
+		return spinOut;
+	}
+
 	/**
 	 * Piston punch out.
 	 * 
