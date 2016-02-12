@@ -13,19 +13,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class JoystickManager {
-	// TODO: Add smartdashoard output to see values coming from joystick buttons
 
-	private ArrayList<BaseJoystick> joystickUsed = new ArrayList<BaseJoystick>();
 	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
-	private XboxJoystick operator = driver;//new XboxJoystick(new Joystick(1));
+	// TODO Revert operator joystick to Joystick(1) once testing is done.
+	private XboxJoystick operator = driver; //new XboxJoystick(new Joystick(1));
+	// private XboxJoystick operator = new XboxJoystick(new Joystick(1));
 
 	/**
 	 * Function for initializing the individual joysticks and adding them to a
 	 * controlling structure.
 	 */
 	public void initController() {
-		// joystickUsed.add(new XboxJoystick(new Joystick(0)));
-		// joystickUsed.add(new LogAttackJoystick(new Joystick(1)));
 
 	}
 
@@ -34,32 +32,25 @@ public class JoystickManager {
 	 * their individual tracking statuses.
 	 */
 	public void updateStatus() {
-		// if (joystickUsed != null && joystickUsed.size() > 0) {
-		// for (int x = 0; x < joystickUsed.size(); x++) {
-		// JoystickController controller = joystickUsed.get(x);
-		// controller.updateStatus();
-		// }
 		driver.updateStatus();
 		operator.updateStatus();
-		// }
 	}
 
 	public double tankDriveLeft() {
-		// XboxJoystick left = (XboxJoystick) joystickUsed.get(0);
 		double LYaxisValue = 0;
 		LYaxisValue = driver.LYaxisValue();
 		SmartDashboard.putNumber("Tank Drive Left:", LYaxisValue);
+	
 		return LYaxisValue;
 		
 	}
 
 	public double tankDriveRight() {
-		// XboxJoystick right = (XboxJoystick) joystickUsed.get(0);
 		double RYaxisValue = 0;
 		RYaxisValue = driver.RYaxisValue();
 		SmartDashboard.putNumber("Tank Drive Right:", RYaxisValue);
+
 		return RYaxisValue;
-	
 		
 	}
 
@@ -75,14 +66,14 @@ public class JoystickManager {
 		return LYaxisValue;
 	}
 
-	public boolean spinBoulderWheelsIn() {
+	public boolean captureBoulderWheels() {
 		boolean spinIn = false;
 		spinIn = operator.RTrigValue() > 0.5;
 		SmartDashboard.putBoolean("Boulder Wheels Spinning Inward", spinIn);
 		return spinIn;
 	}
 	
-	public boolean spinBoulderWheelsOut() {
+	public boolean highShotWheels() {
 		boolean spinOut = false;
 		spinOut = operator.LTrigValue() > 0.5;
 		SmartDashboard.putBoolean("Boulder Wheels Spinning Outward", spinOut);
@@ -154,6 +145,13 @@ public class JoystickManager {
 		rBButtonValue = operator.isRBButtonReleased();
 		SmartDashboard.putBoolean("Shoot Boulder Value", rBButtonValue);
 		return rBButtonValue;
+	}
+
+	public boolean lowShotWheels() {
+		boolean lBButtonValue = false;
+		lBButtonValue = operator.isLBButtonPressed();
+		SmartDashboard.putBoolean("Shoot Boulder Value", lBButtonValue);
+		return lBButtonValue;
 	}
 }
  

@@ -4,7 +4,6 @@ import org.usfirst.frc.team5010.oi.JoystickManager;
 import org.usfirst.frc.team5010.robot.LogicManager;
 
 public class TankDriver implements LogicManager {
-	//TODO: Add smart dashboard output
 	
 	private JoystickManager joystickMgr;
 	private DriveTrainManager driveTrainMgr;

@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveTrainManager implements PIDOutput {
-	// TODO: Add smartdashboard output
 
 	// Define drive channels
 	private final int leftMotorChannel = 0;
@@ -108,7 +107,7 @@ public class DriveTrainManager implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		// TODO Figure out what to write for pidWrite.
+		// TODO Figure out what to write for pidWrite if anything.
 
 	}
 

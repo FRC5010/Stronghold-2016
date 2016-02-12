@@ -66,7 +66,6 @@ public class AutoModeManager implements AutoModeInterface {
 
 	@Override
 	public void initAuton() {
-		// TODO Auto-generated method stub
 		
 	}
 }
