@@ -11,18 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveTrainManager implements PIDOutput {
-	// TODO: Add smartdashboard output
 
 	// Define drive channels
 	private final int leftMotorChannel = 0;
 	private final int rightMotorChannel = 1;
-	private final int gyroChannel = 2;
 
 	private Victor leftMotor1 = null;
 	private Victor rightMotor1 = null;
-	// private AnalogInput channel = new AnalogInput(gyroChannel);
-	// private Gyro gyro = new Gyro(channel);
-	// private PIDController pid = new PIDController(.1, 0, 0, gyro, this);
 	private boolean isFullPower = false;
 	private final double autoPowerLevel = 0.75;
 	private final double DEAD_ZONE = 0.2;
@@ -42,10 +37,6 @@ public class DriveTrainManager implements PIDOutput {
 	 * Default constructor.
 	 */
 	public DriveTrainManager() {
-		// gyro.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate); //
-		// TODO Question the use of this value
-		// pid.setOutputRange(-1, 1);
-		// pid.enable();
 	}
 
 	public void roboInit() {
@@ -64,16 +55,6 @@ public class DriveTrainManager implements PIDOutput {
 			powerLeftAuton(0);
 			powerRightAuton(0);
 		}
-	}
-
-	public void setGyroAngle(double point) {
-		// pid.setSetpoint(point);
-	}
-
-	public void resetGyro() {
-		// double error = pid.getError();
-		// gyro.reset();
-		// pid.setSetpoint(-error);
 	}
 
 	public void setIsFullPower(boolean enabled) {
@@ -126,7 +107,7 @@ public class DriveTrainManager implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		// TODO Figure out what to write for pidWrite.
+		// TODO Figure out what to write for pidWrite if anything.
 
 	}
 

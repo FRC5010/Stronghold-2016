@@ -1,40 +1,39 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.boulder.BoulderHandler;
+import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SpybotManager extends AutoModeManager {
+public class SpybotManager extends SuperAutonMode implements AutoModeInterface {
 	private Gyro headingGyro = null;
-	private long autonStartTime;
-	private long FORWARDTIME = 2000;
-	
+	private TiltHandler accel;
+	private DistanceHandler ranger;
+
 	/**
 	 * Default constructor.
 	 */
 	public SpybotManager() {
-	}
-	
-	@Override
-	public void initAuton() {
-		autonStartTime = System.currentTimeMillis();
 		headingGyro = new ADXRS450_Gyro();
+		accel = new TiltHandler();
+		ranger = new DistanceHandler();
 	}
-	
+
+	@Override
+	public void initAuton(DriveTrainManager driveTrain, BoulderHandler boulderHandler) {
+		currentStepIndex = 0;
+		numberOfSteps = 2;
+		super.initAuton(driveTrain, boulderHandler);
+		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
+		steps[1] = new ShootBoulderLowGoal(boulderHandler);
+		steps[0].startStep();
+	}
+
 	@Override
 	public void run() {
-//        while (isAutonomous()) {
-//            double angle = gyro.getAngle(); // get current heading
-//            myRobot.drive(-1.0, -angle*Kp); // drive towards heading 0
-//            Timer.delay(0.004);
-//        }
-//        myRobot.drive(0.0, 0.0);
-		if (System.currentTimeMillis() < autonStartTime + FORWARDTIME)
-		{
-			// drivetrain forward
-		}
-		else
-		{
-			// drivetrain forward 0
-		}
+		SmartDashboard.putNumber("Range", ranger.getRange());
+		super.run();
 	}
 }
