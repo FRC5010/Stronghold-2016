@@ -10,8 +10,7 @@ public class BoulderHandler implements LogicManager {
 	private BoulderCapture bouldrCptr;
 	private BoulderShooter bouldrShtr;
 	private BoulderWheels bouldrWhls;
-	private final double DEAD_ZONE = 0.2;
-	
+
 	public BoulderHandler(JoystickManager joystickMgr) {
 		this.joystickMgr = joystickMgr;
 		this.bouldrCptr = new BoulderCapture();
@@ -21,37 +20,72 @@ public class BoulderHandler implements LogicManager {
 		bouldrWhls.Stop();
 	}
 
-	// TODO: Add smartdashboard output to update function to see which option is being used.
-	
 	@Override
 	public void update() {
-		if ( joystickMgr.moveBoulderIntakeUp() ) {
-			bouldrCptr.moveUp();
-		}else if( joystickMgr.moveBoulderIntakeDown() ){
-			bouldrCptr.moveDown(); 
+		if (joystickMgr.moveBoulderIntakeUp()) {
+			moveCaptureUp();
+		} else if (joystickMgr.moveBoulderIntakeDown()) {
+			moveCaptureDown();
 		}
 		// Shooter will not fire unless there is at least some power to wheels
 		boolean isShootBoulderPressed = joystickMgr.ShootBoulder();
 		if (isShootBoulderPressed) {
-			bouldrShtr.doShooter();
+			shootBoulder();
 		} else if (joystickMgr.RetractShooter()) {
-			bouldrShtr.retract();
+			retractShooter();
 		}
 
-		if (joystickMgr.spinBoulderWheelsIn()) {
-			if ( !joystickMgr.spinBoulderWheelsOut() ) {
+		if (joystickMgr.captureBoulderWheels()) {
+			if (!joystickMgr.highShotWheels() && !joystickMgr.lowShotWheels()) {
 				SmartDashboard.putString("Boulder Wheels", "Capturing");
-				bouldrWhls.SpinIntake();
+				bouldrWhls.captureBoulder();
 			}
 		} else {
-			if (joystickMgr.spinBoulderWheelsOut()) {
-				SmartDashboard.putString("Boulder Wheels", "Shooting");
-				bouldrWhls.SpinOuttake();			
+			if (joystickMgr.highShotWheels() && !joystickMgr.lowShotWheels()) {
+				highShotWheels();
 			} else {
-				SmartDashboard.putString("Boulder Wheels", "Off");
-				bouldrWhls.Stop();
+				if (joystickMgr.lowShotWheels()) {
+					lowShotWheels();
+				} else {
+					stopWheels();
+				}
 			}
 		}
 
+	}
+	
+	public void shootBoulder() {
+		bouldrShtr.doShooter();
+	}
+	
+	public void retractShooter() {
+		bouldrShtr.retract();
+	}
+	
+	public void lowShotWheels() {
+		SmartDashboard.putString("Boulder Wheels", "LowShot");
+		bouldrWhls.lowShot();
+	}
+	
+	public void highShotWheels() {
+		SmartDashboard.putString("Boulder Wheels", "HighShot");
+		bouldrWhls.highShot();
+	}
+	
+	public void stopWheels() {
+		SmartDashboard.putString("Boulder Wheels", "Off");
+		bouldrWhls.Stop();
+	}
+	
+	public void moveCaptureUp() {
+		bouldrCptr.moveUp();
+	}
+	
+	public void moveCaptureDown() {
+		bouldrCptr.moveDown();
+	}
+	
+	public BoulderCapture.ArmState getCaptureState() {
+		return bouldrCptr.getArmState();
 	}
 }

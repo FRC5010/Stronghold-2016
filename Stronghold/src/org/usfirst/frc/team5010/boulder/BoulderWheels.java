@@ -5,21 +5,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class BoulderWheels {
 
-	// TODO: Add SmartDashboard output to functions to see values
-
 	private Victor motorLeft;
 	private Victor motorRight;
-	private final double DEAD_ZONE = 0.2;
+//	private final double DEAD_ZONE = 0.2;
 
 	public BoulderWheels() {
 		this.motorLeft = new Victor(2);
 		this.motorRight = new Victor(3);
-		SmartDashboard.putNumber("Intake", 0.35);
-		SmartDashboard.putNumber("Outtake", 1.0);
+		SmartDashboard.putNumber("Intake", 0.35 );
+		SmartDashboard.putNumber("LowShot", 0.5);
+		SmartDashboard.putNumber("HighShot", 1.0);
 	}
 
 	// Use if you want to control with joystick
-	private double scaleInputsToPower(double input) {
+/*	private double scaleInputsToPower(double input) {
 		double power = 0.0;
 		if (Math.abs(input) > DEAD_ZONE) {
 			if (input < 0) {
@@ -30,15 +29,24 @@ public class BoulderWheels {
 		}
 		return Math.pow(power, 3.0);
 	}
-
-	public void SpinIntake() {
+*/
+	public void captureBoulder() {
 		double power = SmartDashboard.getNumber("Intake");
 		motorLeft.set(-power);
 		motorRight.set(power);
 	}
 
-	public void SpinOuttake() {
-		double power = SmartDashboard.getNumber("Outtake");
+	public void highShot() {
+		double power = SmartDashboard.getNumber("HighShot");
+		shootBoulder(power);
+	}
+	
+	public void lowShot() {
+		double power = SmartDashboard.getNumber("LowShot");
+		shootBoulder(power);
+	}
+	
+	private void shootBoulder(double power) {
 		motorLeft.set(power);
 		motorRight.set(-power);
 	}

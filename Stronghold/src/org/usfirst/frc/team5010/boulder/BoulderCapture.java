@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5010.boulder;
 
+import org.usfirst.frc.team5010.boulder.BoulderCapture.ArmState;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -7,12 +9,12 @@ public class BoulderCapture {
 private DoubleSolenoid arms;
 
 public BoulderCapture(){
-	arms = new DoubleSolenoid(0, 1);
+	arms = new DoubleSolenoid(1 , 0);
 	arms.set(DoubleSolenoid.Value.kOff);
 }
 	// TODO: Add Solenoid class and call set function in apropos places in moveUp/Down
 	
-	private enum ArmState {
+	public enum ArmState {
 		CAPTURE, HIGH_GOAL
 	};
 
@@ -58,8 +60,11 @@ public BoulderCapture(){
 			break;
 		}
 		SmartDashboard.putString("Capture Arm", armState.toString());
-		// TODO Auto-generated method stub
 
+	}
+
+	public ArmState getArmState() {
+		return armState;
 	}
 
 }
