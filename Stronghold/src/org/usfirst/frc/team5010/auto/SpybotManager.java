@@ -1,83 +1,39 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SpybotManager extends AutoModeManager {
+public class SpybotManager extends SuperAutonMode implements AutoModeInterface {
 	private Gyro headingGyro = null;
-	private long autonStartTime;
-	private long FORWARDTIME = 20000;
-	
+	private TiltHandler accel;
+	private DistanceHandler ranger;
+
 	/**
 	 * Default constructor.
 	 */
 	public SpybotManager() {
-	}
-	
-	@Override
-	public void initAuton() {
-		autonStartTime = System.currentTimeMillis();
 		headingGyro = new ADXRS450_Gyro();
+		accel = new TiltHandler();
+		ranger = new DistanceHandler();
 	}
-	
+
 	@Override
-	public void run(DriveTrainManager driveTrain) {
-		double angle = headingGyro.getAngle();
-		double curve = -angle * 0.03;
-
-		if (System.currentTimeMillis() < autonStartTime + FORWARDTIME)
-		{
-			driveForward(driveTrain, 0.50, curve);
-		}
-		else
-		{
-			driveTrain.powerLeftAuton(0);
-			driveTrain.powerRightAuton(0);
-		}
-		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());
+	public void initAuton(DriveTrainManager driveTrain, BoulderHandler boulderHandler) {
+		currentStepIndex = 0;
+		numberOfSteps = 2;
+		super.initAuton(driveTrain, boulderHandler);
+		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
+		steps[1] = new ShootBoulderLowGoal(boulderHandler);
+		steps[0].startStep();
 	}
-	
-	/**
-	 * @param driveTrain DriveTrainManager
-	 * @param powerLevel double
-	 * @param curve double
-	 */
-	private void driveForward(DriveTrainManager driveTrain, 
-			double powerLevel, double gyroOffset) 
-	{
-	    double leftOutput, rightOutput;
 
-    	if (gyroOffset < 0) {
-    		double value = Math.log(-gyroOffset);
-    		double ratio = (value - 0.5) / (value + 0.5);
-    		if (ratio == 0) {
-    			ratio = .0000000001;
-	        }
-    		
-    		leftOutput = powerLevel / ratio;
-    		rightOutput = powerLevel;
-		} 
-	    else if (gyroOffset > 0) {
-	    	double value = Math.log(gyroOffset);
-	    	double ratio = (value - 0.5) / (value + 0.5);
-	    	if (ratio == 0) {
-	    		ratio = .0000000001;
-	    	}
-	   
-	    	leftOutput = powerLevel;
-	    	rightOutput = powerLevel / ratio;
-	    } else {
-	        leftOutput = powerLevel;
-	        rightOutput = powerLevel;
-	    }
-	    
-    	SmartDashboard.putNumber("powerLeftAuton", leftOutput);
-    	SmartDashboard.putNumber("powerRightAuton", rightOutput);
-    	
-		driveTrain.powerLeftAuton(leftOutput);
-		driveTrain.powerRightAuton(rightOutput);
+	@Override
+	public void run() {
+		SmartDashboard.putNumber("Range", ranger.getRange());
+		super.run();
 	}
 }
