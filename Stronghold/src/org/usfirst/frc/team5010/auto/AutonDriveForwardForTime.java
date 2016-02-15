@@ -1,11 +1,12 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.drivetrain.AutonDriver;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutonDriveForwardForTime implements AutoModeStep {
+public class AutonDriveForwardForTime extends AutonDriver implements AutoModeStep {
 	private Gyro headingGyro = null;
 	private long autonStartTime;
 	private long FORWARDTIME = 2000;

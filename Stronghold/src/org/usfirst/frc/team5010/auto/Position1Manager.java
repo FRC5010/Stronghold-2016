@@ -6,7 +6,7 @@ import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
-public class Position1Manager extends SuperAutonMode implements AutoModeInterface{
+public class Position1Manager extends SuperAutonMode implements AutoModeInterface {
 	private Gyro headingGyro = null;
 	private TiltHandler accel;
 	private DistanceHandler ranger;
@@ -14,17 +14,11 @@ public class Position1Manager extends SuperAutonMode implements AutoModeInterfac
 	private int numberOfSteps = 2;
 	private AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
 	private int currentStepIndex = 0;
-	
+
 	public Position1Manager() {
 		headingGyro = new ADXRS450_Gyro();
 		accel = new TiltHandler();
 		ranger = new DistanceHandler();
-	}
-
-	@Override
-	public void run() {
-		super.run();
-
 	}
 
 	@Override
@@ -42,5 +36,3 @@ public class Position1Manager extends SuperAutonMode implements AutoModeInterfac
 	}
 
 }
-
-

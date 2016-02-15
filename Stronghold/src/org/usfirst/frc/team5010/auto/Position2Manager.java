@@ -22,12 +22,6 @@ public class Position2Manager extends SuperAutonMode implements AutoModeInterfac
 	}
 
 	@Override
-	public void run() {
-		super.run();
-
-	}
-
-	@Override
 	public void initAuton(DriveTrainManager driveTrain, BoulderHandler boulderHandler) {
 		numberOfSteps = 5;
 		currentStepIndex = 0;
