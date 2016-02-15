@@ -89,7 +89,7 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	}
 
 	public double LYaxisValue() {
-		return joyStick.getRawAxis(1);
+		return -joyStick.getRawAxis(1);
 
 	}
 
@@ -109,7 +109,7 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	}
 
 	public double RYaxisValue() {
-		return joyStick.getRawAxis(5);
+		return -joyStick.getRawAxis(5);
 
 	}
 
