@@ -15,17 +15,11 @@ public class Position3Manager extends SuperAutonMode implements AutoModeInterfac
 	private int numberOfSteps = 2;
 	private AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
 	private int currentStepIndex = 0;
-	
+
 	public Position3Manager() {
 		headingGyro = new ADXRS450_Gyro();
 		accel = new TiltHandler();
 		ranger = new DistanceHandler();
-	}
-
-	@Override
-	public void run() {
-		super.run();
-
 	}
 
 	@Override

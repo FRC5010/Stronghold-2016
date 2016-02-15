@@ -77,18 +77,6 @@ public class DriveTrainManager implements PIDOutput {
 		return Math.pow(power, 3.0);
 	}
 
-	public void powerLeftAuton(double power) {
-		power = scaleInputsToPower(power);
-		leftMotor1.set(power * autoPowerLevel);
-		SmartDashboard.putNumber("Left power:", leftMotor1.get());
-	}
-
-	public void powerRightAuton(double power) {
-		power = scaleInputsToPower(power);
-		rightMotor1.set(power * autoPowerLevel);
-		SmartDashboard.putNumber("Right power:", rightMotor1.get());
-	}
-
 	public void powerLeftNormal(double power) {
 		power = scaleInputsToPower(power);
 		leftMotor1.set(power);
@@ -103,6 +91,29 @@ public class DriveTrainManager implements PIDOutput {
 
 	public boolean isFullPower() {
 		return isFullPower;
+	}
+
+	public void stopLeftWheel() {
+		double currentLPower = leftMotor1.get(); // Get the current power
+													// setting
+		double powerToArrestMom = -(currentLPower / 2); // that's momentum, not
+														// your Mom!
+		// You may have to play with this calculation in order to get the
+		// stopping just right
+		// Maybe just raise the 2 to a 3 or 4, possibly a fractional value. It
+		// will take some experimentation
+
+		if (powerToArrestMom < 0) {
+			for (double rLPower = 0; rLPower > powerToArrestMom; rLPower -= 0.01) {
+				leftMotor1.set(rLPower); // Gradually give more power to stop
+											// the wheels
+			}
+		} else {
+			for (double rLPower = 0; rLPower < powerToArrestMom; rLPower += 0.01) {
+				leftMotor1.set(0);
+			}
+		}
+		// Now that mom is arrested, set power to wheel to 0.
 	}
 
 	@Override
