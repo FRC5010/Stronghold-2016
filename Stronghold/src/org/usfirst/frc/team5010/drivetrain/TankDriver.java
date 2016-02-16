@@ -21,7 +21,7 @@ public class TankDriver implements LogicManager {
 		driveTrainMgr.powerLeftNormal(lPower);
 
 		double rPower = joystickMgr.tankDriveRight();
-		driveTrainMgr.powerRightNormal(rPower);
+		driveTrainMgr.powerRightNormal(-rPower);
 
 	}
 

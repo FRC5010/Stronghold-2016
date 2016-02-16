@@ -37,7 +37,7 @@ public class DriveTrainManager implements PIDOutput {
 	public DriveTrainManager() {
 	}
 
-	public void roboInit() {
+	public void robotInit() {
 		leftMotor1 = new Victor(leftMotorChannel);
 		rightMotor1 = new Victor(rightMotorChannel);
 	}

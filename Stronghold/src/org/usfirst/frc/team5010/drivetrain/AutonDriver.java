@@ -1,11 +1,10 @@
 package org.usfirst.frc.team5010.drivetrain;
 
-import java.util.concurrent.CompletableFuture;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonDriver {
-	DriveTrainManager driveTrain;
+
+	protected DriveTrainManager driveTrain;
 
 	public AutonDriver(DriveTrainManager driveTrain) {
 		this.driveTrain = driveTrain;
@@ -36,6 +35,7 @@ public class AutonDriver {
 			leftOutput = powerLevel;
 			rightOutput = powerLevel;
 		}
+	
 		SmartDashboard.putNumber("powerLeftAuton", leftOutput);
 		SmartDashboard.putNumber("powerRightAuton", rightOutput);
 

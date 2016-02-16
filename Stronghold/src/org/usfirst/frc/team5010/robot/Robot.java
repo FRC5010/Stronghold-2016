@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
         server.startAutomaticCapture("cam0");
     
 		driveTrain = new DriveTrainManager();
-		driveTrain.roboInit();
+		driveTrain.robotInit();
 		tankDriver = new TankDriver(joystickMgr, driveTrain);
 		
 		boulderHndlr = new BoulderHandler(joystickMgr);
