@@ -155,5 +155,8 @@ public class Robot extends IterativeRobot {
 	public BoulderHandler getBoulderHndlr() {
 		return boulderHndlr;
 	}
-
+public void disabledInit() {
+	// call disabled functions in DriveTrainManager and BoulderHandler.
+	//BoulderHandler needs to stop both the wheels and the pistons.
+}
 }
