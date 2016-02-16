@@ -10,11 +10,10 @@ public class AutonDriveForwardForTime extends AutonDriver implements AutoModeSte
 	private Gyro headingGyro = null;
 	private long autonStartTime;
 	private long FORWARDTIME = 2000;
-	private DriveTrainManager driveTrain;
 	private boolean accomplished = false;
 
 	public AutonDriveForwardForTime(DriveTrainManager driveTrain, Gyro gyro, long timeToDrive) {
-		this.driveTrain = driveTrain;
+		super(driveTrain);
 		this.headingGyro = gyro;
 		this.FORWARDTIME = timeToDrive;
 		SmartDashboard.putString("Auton Task:", "Ctr AutonDriveForwardForTime");
@@ -33,10 +32,9 @@ public class AutonDriveForwardForTime extends AutonDriver implements AutoModeSte
 		double curve = -angle * 0.03;
 
 		if (System.currentTimeMillis() < autonStartTime + FORWARDTIME) {
-			driveForward(0.50, curve);
+			steer(0.50, curve);
 		} else {
-			driveTrain.powerLeftAuton(0);
-			driveTrain.powerRightAuton(0);
+			stop();
 			accomplished = true;
 		}
 		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());
@@ -56,36 +54,5 @@ public class AutonDriveForwardForTime extends AutonDriver implements AutoModeSte
 	 * @param curve
 	 *            double
 	 */
-	private void driveForward(double powerLevel, double gyroOffset) {
-		double leftOutput, rightOutput;
 
-		if (gyroOffset < 0) {
-			double value = Math.log(-gyroOffset);
-			double ratio = (value - 0.5) / (value + 0.5);
-			if (ratio == 0) {
-				ratio = .0000000001;
-			}
-
-			leftOutput = powerLevel / ratio;
-			rightOutput = powerLevel;
-		} else if (gyroOffset > 0) {
-			double value = Math.log(gyroOffset);
-			double ratio = (value - 0.5) / (value + 0.5);
-			if (ratio == 0) {
-				ratio = .0000000001;
-			}
-
-			leftOutput = powerLevel;
-			rightOutput = powerLevel / ratio;
-		} else {
-			leftOutput = powerLevel;
-			rightOutput = powerLevel;
-		}
-
-		SmartDashboard.putNumber("powerLeftAuton", leftOutput);
-		SmartDashboard.putNumber("powerRightAuton", rightOutput);
-
-		driveTrain.powerLeftAuton(leftOutput);
-		driveTrain.powerRightAuton(rightOutput);
-	}
 }
