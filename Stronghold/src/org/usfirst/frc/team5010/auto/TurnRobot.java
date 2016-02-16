@@ -1,18 +1,17 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.drivetrain.AutonDriver;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TurnRobot implements AutoModeStep {
-private DriveTrainManager driveTrain;
+public class TurnRobot extends AutonDriver implements AutoModeStep {
 private double angle;
 private Gyro gyro;
 private boolean accomplished = false;
 
 public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) { 
-	this.driveTrain = driveTrain;
+	super(driveTrain);
 	this.angle = angle;
 	this.gyro = gyro;
 }
@@ -25,10 +24,11 @@ public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) {
 	public void update() {
 		double currentAngle = gyro.getAngle();
 		if (currentAngle != angle) {
-			turnRobot( 0.5, currentAngle - angle );
+			steer( 0.5, currentAngle - angle );
 		}
 		else {
 			accomplished = true;
+			stop();
 		}
 
 	}
@@ -37,36 +37,5 @@ public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) {
 	public boolean accomplished() {
 		return accomplished;
 	}
-	private void turnRobot(double powerLevel, double gyroOffset) {
-		double leftOutput, rightOutput;
-
-		if (gyroOffset < 0) {
-			double value = Math.log(-gyroOffset);
-			double ratio = (value - 0.5) / (value + 0.5);
-			if (ratio == 0) {
-				ratio = .0000000001;
-			}
-
-			leftOutput = powerLevel / ratio;
-			rightOutput = powerLevel;
-		} else if (gyroOffset > 0) {
-			double value = Math.log(gyroOffset);
-			double ratio = (value - 0.5) / (value + 0.5);
-			if (ratio == 0) {
-				ratio = .0000000001;
-			}
-
-			leftOutput = powerLevel;
-			rightOutput = powerLevel / ratio;
-		} else {
-			leftOutput = powerLevel;
-			rightOutput = powerLevel;
-		}
-
-		SmartDashboard.putNumber("powerLeftAuton", leftOutput);
-		SmartDashboard.putNumber("powerRightAuton", rightOutput);
-
-		driveTrain.powerLeftAuton(leftOutput);
-		driveTrain.powerRightAuton(rightOutput);
-	}
+	
 }
