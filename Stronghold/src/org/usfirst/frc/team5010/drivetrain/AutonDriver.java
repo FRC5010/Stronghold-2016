@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5010.drivetrain;
 
 public class AutonDriver {
-	
+
 	private void driveForward(double powerLevel, double gyroOffset) {
 		double leftOutput, rightOutput;
 
@@ -27,5 +27,5 @@ public class AutonDriver {
 			leftOutput = powerLevel;
 			rightOutput = powerLevel;
 		}
-	
+	}
 }

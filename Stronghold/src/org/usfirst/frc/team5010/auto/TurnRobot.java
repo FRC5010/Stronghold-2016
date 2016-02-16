@@ -66,7 +66,7 @@ public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) {
 		SmartDashboard.putNumber("powerLeftAuton", leftOutput);
 		SmartDashboard.putNumber("powerRightAuton", rightOutput);
 
-		driveTrain.powerLeftAuton(leftOutput);
-		driveTrain.powerRightAuton(rightOutput);
+		driveTrain.powerLeftNormal(leftOutput);
+		driveTrain.powerRightNormal(rightOutput);
 	}
 }

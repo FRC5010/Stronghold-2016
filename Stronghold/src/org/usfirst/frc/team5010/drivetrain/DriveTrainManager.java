@@ -39,31 +39,31 @@ public class DriveTrainManager implements PIDOutput {
 	public DriveTrainManager() {
 	}
 
-	public void roboInit() {
+	public void robotInit() {
 		leftMotor1 = new Victor(leftMotorChannel);
 		rightMotor1 = new Victor(rightMotorChannel);
 	}
+//TODO remove?
+//	public void setForward(double power) {
+//		if (Math.abs(power) > DEAD_ZONE) {
+//			if (!isFullPower) {
+//				power = Math.pow(power, 4.0);
+//				powerLeftAuton(power);
+//				powerRightAuton(power);
+//			}
+//		} else {
+//			powerLeftAuton(0);
+//			powerRightAuton(0);
+//		}
+//	}
 
-	public void setForward(double power) {
-		if (Math.abs(power) > DEAD_ZONE) {
-			if (!isFullPower) {
-				power = Math.pow(power, 4.0);
-				powerLeftAuton(power);
-				powerRightAuton(power);
-			}
-		} else {
-			powerLeftAuton(0);
-			powerRightAuton(0);
-		}
-	}
-
-	public void setIsFullPower(boolean enabled) {
-		if (enabled) {
-			isFullPower = true;
-		} else {
-			isFullPower = false;
-		}
-	}
+//	public void setIsFullPower(boolean enabled) {
+//		if (enabled) {
+//			isFullPower = true;
+//		} else {
+//			isFullPower = false;
+//		}
+//	}
 
 	private double scaleInputsToPower(double input) {
 		double power = 0.0;
