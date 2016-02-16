@@ -1,8 +1,16 @@
 package org.usfirst.frc.team5010.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AutonDriver {
 
-	private void driveForward(double powerLevel, double gyroOffset) {
+	protected DriveTrainManager driveTrain;
+
+	public AutonDriver(DriveTrainManager driveTrain) {
+		this.driveTrain = driveTrain;
+	}
+
+	public void steer(double powerLevel, double gyroOffset) {
 		double leftOutput, rightOutput;
 
 		if (gyroOffset < 0) {
@@ -27,5 +35,16 @@ public class AutonDriver {
 			leftOutput = powerLevel;
 			rightOutput = powerLevel;
 		}
+	
+		SmartDashboard.putNumber("powerLeftAuton", leftOutput);
+		SmartDashboard.putNumber("powerRightAuton", rightOutput);
+
+		driveTrain.powerLeftNormal(leftOutput);
+		driveTrain.powerRightNormal(rightOutput);
+
+	}
+
+	public void stop() {
+		driveTrain.stop();
 	}
 }

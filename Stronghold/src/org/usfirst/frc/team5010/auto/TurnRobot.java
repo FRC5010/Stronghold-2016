@@ -1,21 +1,21 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.drivetrain.AutonDriver;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TurnRobot implements AutoModeStep {
-private DriveTrainManager driveTrain;
+public class TurnRobot extends AutonDriver implements AutoModeStep {
 private double angle;
 private Gyro gyro;
 private boolean accomplished = false;
 
 public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) { 
-	this.driveTrain = driveTrain;
+	super(driveTrain);
 	this.angle = angle;
 	this.gyro = gyro;
-}
+	}
 	@Override
 	public void startStep() {
 
@@ -25,10 +25,11 @@ public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) {
 	public void update() {
 		double currentAngle = gyro.getAngle();
 		if (currentAngle != angle) {
-			turnRobot( 0.5, currentAngle - angle );
+			steer( 0.5, currentAngle - angle );
 		}
 		else {
 			accomplished = true;
+			stop();
 		}
 
 	}
@@ -69,4 +70,5 @@ public TurnRobot( DriveTrainManager driveTrain, double angle, Gyro gyro) {
 		driveTrain.powerLeftNormal(leftOutput);
 		driveTrain.powerRightNormal(rightOutput);
 	}
+	
 }
