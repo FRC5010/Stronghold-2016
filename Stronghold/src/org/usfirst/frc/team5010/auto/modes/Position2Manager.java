@@ -1,21 +1,23 @@
-package org.usfirst.frc.team5010.auto;
+package org.usfirst.frc.team5010.auto.modes;
 
+import org.usfirst.frc.team5010.auto.DistanceHandler;
+import org.usfirst.frc.team5010.auto.TiltHandler;
+import org.usfirst.frc.team5010.auto.steps.AutoModeStep;
+import org.usfirst.frc.team5010.auto.steps.AutonDriveForwardForTime;
+import org.usfirst.frc.team5010.auto.steps.ShootHighGoal;
+import org.usfirst.frc.team5010.auto.steps.TurnRobot;
 import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
-public class Position4Manager extends SuperAutonMode implements AutoModeInterface {
+public class Position2Manager extends SuperAutonMode implements AutoModeInterface {
 	private Gyro headingGyro = null;
 	private TiltHandler accel;
 	private DistanceHandler ranger;
 
-	private int numberOfSteps = 2;
-	private AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
-	private int currentStepIndex = 0;
-
-	public Position4Manager() {
+	public Position2Manager() {
 		headingGyro = new ADXRS450_Gyro();
 		accel = new TiltHandler();
 		ranger = new DistanceHandler();
@@ -27,7 +29,7 @@ public class Position4Manager extends SuperAutonMode implements AutoModeInterfac
 		currentStepIndex = 0;
 		super.initAuton(driveTrain, boulderHandler);
 		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
-		steps[1] = new TurnRobot(driveTrain, 270, headingGyro);
+		steps[1] = new TurnRobot(driveTrain, 90, headingGyro);
 		steps[2] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
 		steps[3] = new TurnRobot(driveTrain, 0, headingGyro);
 		steps[4] = new ShootHighGoal(boulderHandler);

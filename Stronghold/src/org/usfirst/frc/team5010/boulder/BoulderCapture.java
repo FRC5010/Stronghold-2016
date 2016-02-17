@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5010.boulder;
 
-import org.usfirst.frc.team5010.boulder.BoulderCapture.ArmState;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -65,6 +63,11 @@ public BoulderCapture(){
 
 	public ArmState getArmState() {
 		return armState;
+	}
+
+	public void disable() {
+		arms.set(DoubleSolenoid.Value.kOff);
+		
 	}
 
 }

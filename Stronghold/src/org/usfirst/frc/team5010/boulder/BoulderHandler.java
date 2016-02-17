@@ -88,4 +88,9 @@ public class BoulderHandler implements LogicManager {
 	public BoulderCapture.ArmState getCaptureState() {
 		return bouldrCptr.getArmState();
 	}
+	public void disable() {
+		bouldrWhls.Stop();
+		bouldrCptr.disable();
+		bouldrShtr.retract();
+	}
 }
