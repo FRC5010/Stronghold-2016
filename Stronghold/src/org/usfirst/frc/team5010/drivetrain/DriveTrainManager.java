@@ -55,7 +55,8 @@ public class DriveTrainManager implements PIDOutput {
 		}
 		return Math.pow(power, 3.0);
 	}
-// Stop function.  Copy into BoulderWheels. 2/15/16 
+
+	// Stop function. Copy into BoulderWheels. 2/15/16
 	public void stop() {
 		Runnable task = () -> {
 			stopLeftWheel();
@@ -76,7 +77,9 @@ public class DriveTrainManager implements PIDOutput {
 		rightMotor1.set(power);
 		SmartDashboard.putNumber("Right power:", rightMotor1.get());
 	}
-// TODO: copy both stopLeftWheel() and stopRightWheel() into BoulderWheels.  2/15/16
+
+	// TODO: copy both stopLeftWheel() and stopRightWheel() into BoulderWheels.
+	// 2/15/16
 	public void stopLeftWheel() {
 		double currentLPower = leftMotor1.get(); // Get the current power
 													// setting

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5010.auto;
+package org.usfirst.frc.team5010.auto.steps;
 
 public interface AutoModeStep {
 	public void startStep();

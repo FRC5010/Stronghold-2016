@@ -1,5 +1,11 @@
-package org.usfirst.frc.team5010.auto;
+package org.usfirst.frc.team5010.auto.modes;
 
+import org.usfirst.frc.team5010.auto.DistanceHandler;
+import org.usfirst.frc.team5010.auto.TiltHandler;
+import org.usfirst.frc.team5010.auto.steps.AutoModeStep;
+import org.usfirst.frc.team5010.auto.steps.AutonDriveForwardForTime;
+import org.usfirst.frc.team5010.auto.steps.ShootHighGoal;
+import org.usfirst.frc.team5010.auto.steps.TurnRobot;
 import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
@@ -11,9 +17,7 @@ public class Position1Manager extends SuperAutonMode implements AutoModeInterfac
 	private TiltHandler accel;
 	private DistanceHandler ranger;
 
-	private int numberOfSteps = 2;
 	private AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
-	private int currentStepIndex = 0;
 
 	public Position1Manager() {
 		headingGyro = new ADXRS450_Gyro();

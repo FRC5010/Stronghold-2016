@@ -1,5 +1,6 @@
-package org.usfirst.frc.team5010.auto;
+package org.usfirst.frc.team5010.auto.modes;
 
+import org.usfirst.frc.team5010.auto.steps.AutoModeStep;
 import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
@@ -7,14 +8,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SuperAutonMode implements AutoModeInterface {
 	int numberOfSteps = 2;
-	AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
+	AutoModeStep[] steps;
 	int currentStepIndex = 0;
 	 DriveTrainManager driveTrain;
 	 BoulderHandler boulderHandler;
+	 boolean enabled;
 
 	@Override
 	public void run() {
-		if (currentStepIndex < numberOfSteps) {
+		if (enabled && currentStepIndex < numberOfSteps) {
 			AutoModeStep currentStep = steps[currentStepIndex];
 			if (!currentStep.accomplished()) {
 				currentStep.update();
@@ -26,7 +28,7 @@ public class SuperAutonMode implements AutoModeInterface {
 				}
 			}
 		} else {
-			SmartDashboard.putString("Auton Task:", "SpyBot Complete");
+			SmartDashboard.putString("Auton Task:", "Auton Complete");
 		}
 	}
 
@@ -36,8 +38,14 @@ public class SuperAutonMode implements AutoModeInterface {
 		this.boulderHandler = boulderHandler;
 		currentStepIndex = 0;
 		steps = new AutoModeStep[numberOfSteps];
-		// TODO Auto-generated method stub
+		enabled = true;
 
+	}
+
+	@Override
+	public void stop() {
+		enabled = false;
+		
 	}
 
 }
