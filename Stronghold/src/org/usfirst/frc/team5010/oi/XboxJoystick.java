@@ -128,34 +128,12 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	// for tilting the piston.
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
-		// If buttons are equal, return false (button was previously pressed or released)
-		if (currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr]) {
-			// update previous status so it only registers once
-			previousButtonStatus[buttonNbr] = currentButtonStatus[buttonNbr];
-			// Indicate whether we can perform the expected action
-			if (currentButtonStatus[buttonNbr]) {
-				// Next time button state will equal and won't fire repeatedly
-				SmartDashboard.putNumber("Button Pressed:", buttonNbr);
-				return true;
-			}
-		}
-		return false;
+		return isEvent(ButtonEvents.PRESSED, buttonNbr);
 	}
 
 	@Override
 	public boolean isButtonReleased(int buttonNbr) {
-		// If buttons are equal, return false (button was previously pressed or released)
-		if (currentButtonStatus[buttonNbr] != previousButtonStatus[buttonNbr]) {
-			// update previous status so it only registers once
-			previousButtonStatus[buttonNbr] = currentButtonStatus[buttonNbr];
-			// Indicate whether we can perform the expected action
-			if (!currentButtonStatus[buttonNbr]) {
-				// Next time button state will equal and won't fire repeatedly
-				SmartDashboard.putNumber("Button Released:", buttonNbr);
-				return true;
-			}
-		}
-		return false;
+		return isEvent(ButtonEvents.RELEASED, buttonNbr);
 	}
 
 	@Override
@@ -171,9 +149,10 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 				//record which event we detected
 				if(currentButtonStatus[i] == true){
 					events[i] = ButtonEvents.PRESSED;// the event for this button is labeled, PRESSED
-					SmartDashboard.putNumber("Button Preesed", i);
+					SmartDashboard.putNumber("Button Pressed", i);
 				} else {
 					events[i] = ButtonEvents.RELEASED;
+					SmartDashboard.putNumber("Button Released", i);
 				}
 			}
 		}

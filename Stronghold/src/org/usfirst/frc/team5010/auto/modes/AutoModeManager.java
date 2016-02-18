@@ -1,5 +1,6 @@
-package org.usfirst.frc.team5010.auto;
+package org.usfirst.frc.team5010.auto.modes;
 
+import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -9,6 +10,7 @@ public class AutoModeManager implements AutoModeInterface {
 	// Static parts of the class that are used to determine
 	// what kind of sub-class to create.
 	private static final String spybotMode = "Spy-Bot Mode";
+	private static final String position1 = "Position One";
 	private static final String position2 = "Position Two";
 	private static final String position3 = "Position Three";
 	private static final String position4 = "Position Four";
@@ -16,12 +18,13 @@ public class AutoModeManager implements AutoModeInterface {
 
 	private static String modeSelected;
 	private static SendableChooser chooser;
-	private static AutoModeManager instance = null;
+	private static AutoModeInterface instance = null;
 
 	// Static init function called by robotInit()
 	public static void init() {
 		chooser = new SendableChooser();
 		chooser.addDefault(spybotMode, spybotMode);
+		chooser.addObject(position1, position1);
 		chooser.addObject(position2, position2);
 		chooser.addObject(position3, position3);
 		chooser.addObject(position4, position4);
@@ -31,7 +34,7 @@ public class AutoModeManager implements AutoModeInterface {
 	}
 
 	// Auto-mode type chooser called by autonomousInit()
-	public static AutoModeManager get() {
+	public static AutoModeInterface get() {
 		if (instance == null) {
 			modeSelected = (String) chooser.getSelected();
 			System.out.println("Auto mode selected: " + modeSelected);
@@ -39,11 +42,15 @@ public class AutoModeManager implements AutoModeInterface {
 			switch (modeSelected) {
 			case spybotMode:
 				instance = new SpybotManager();
+				break;
+			case position1:
+				//instance = new Position1Manager();
+				break;
 			case position2:
 				// instance =  new Position2Manager();
 				break;
 			case position3:
-				// instance =  new Position3Manager();
+				 instance =  new Position3Manager();
 				break;
 			case position4:
 				// instance =  new Position4Manager();
@@ -60,13 +67,17 @@ public class AutoModeManager implements AutoModeInterface {
 	}
 
 	@Override
-	public void run(DriveTrainManager driveTrain) {
+	public void run() {
 
 	}
 
 	@Override
-	public void initAuton() {
-		// TODO Auto-generated method stub
+	public void initAuton(DriveTrainManager driveTrain, BoulderHandler boulderHndlr) {
+		
+	}
+
+	@Override
+	public void stop() {
 		
 	}
 }

@@ -4,7 +4,6 @@ import org.usfirst.frc.team5010.oi.JoystickManager;
 import org.usfirst.frc.team5010.robot.LogicManager;
 
 public class TankDriver implements LogicManager {
-	//TODO: Add smart dashboard output
 	
 	private JoystickManager joystickMgr;
 	private DriveTrainManager driveTrainMgr;
@@ -19,7 +18,7 @@ public class TankDriver implements LogicManager {
 	public void update() {
 		// logicManager.updateRobotDriving(); - put this code in a LogicManager
 		double lPower = joystickMgr.tankDriveLeft();
-		driveTrainMgr.powerLeftNormal(lPower);
+		driveTrainMgr.powerLeftNormal(-lPower);
 
 		double rPower = joystickMgr.tankDriveRight();
 		driveTrainMgr.powerRightNormal(rPower);

@@ -1,13 +1,19 @@
 package org.usfirst.frc.team5010.boulder;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class BoulderCapture {
+private DoubleSolenoid arms;
 
+public BoulderCapture(){
+	arms = new DoubleSolenoid(1 , 0);
+	arms.set(DoubleSolenoid.Value.kOff);
+}
 	// TODO: Add Solenoid class and call set function in apropos places in moveUp/Down
 	
-	private enum ArmState {
-		CAPTURE, LOW_GOAL, HIGH_GOAL
+	public enum ArmState {
+		CAPTURE, HIGH_GOAL
 	};
 
 	// TODO: Initialize this by detecting actual state from Robot
@@ -19,15 +25,14 @@ public class BoulderCapture {
 
 	public void moveDown() {
 		switch (armState) {
-		case LOW_GOAL:
-			break;
 		case CAPTURE: {
-			armState = ArmState.LOW_GOAL;
 			break;
 
 		}
 		case HIGH_GOAL: {
 			armState = ArmState.CAPTURE;
+			arms.set(DoubleSolenoid.Value.kReverse);
+
 			break;
 		}
 		default:
@@ -39,12 +44,10 @@ public class BoulderCapture {
 
 	public void moveUp() {
 		switch (armState) {
-		case LOW_GOAL: {
-			armState = ArmState.CAPTURE;
-			break;
-			}
 		case CAPTURE: {
 			armState = ArmState.HIGH_GOAL;
+			arms.set(DoubleSolenoid.Value.kForward);
+
 			break;
 
 		}
@@ -55,8 +58,16 @@ public class BoulderCapture {
 			break;
 		}
 		SmartDashboard.putString("Capture Arm", armState.toString());
-		// TODO Auto-generated method stub
 
+	}
+
+	public ArmState getArmState() {
+		return armState;
+	}
+
+	public void disable() {
+		arms.set(DoubleSolenoid.Value.kOff);
+		
 	}
 
 }
