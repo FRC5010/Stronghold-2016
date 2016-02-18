@@ -5,3 +5,6 @@ dist/
 lib/
 native/
 caches/
+Stronghold/build/jars/WPILib.jar
+Stronghold/build/jars/NetworkTables.jar
+*.class

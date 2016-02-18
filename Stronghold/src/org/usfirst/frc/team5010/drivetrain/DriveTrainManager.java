@@ -6,110 +6,132 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Primary class for controlling drive train.
+ * 
  * @since January 23, 2016
  *
  */
 public class DriveTrainManager implements PIDOutput {
+
 	// Define drive channels
-	private final int leftMotorChannel = 1;
-	private final int rightMotorChannel = 2;
-	private final int gyroChannel = 2;
-	
-    private Victor leftMotor1 = null;//new Victor(leftMotorChannel);
-//    private final Victor leftMotor2 = new Victor(2);
-    private Victor rightMotor1 = null;//new Victor(rightMotorChannel);
-//    private final Victor rightMotor2 = new Victor(3);
-//    private AnalogInput channel = new AnalogInput(gyroChannel);
-//    private Gyro gyro = new Gyro(channel);
-//    private PIDController pid = new PIDController(.1, 0, 0, gyro, this);
-    //private SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftMotor1);
-    //private SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightMotor1);
-    private boolean isFullPower = false;
-    private final double autoPowerLevel = 0.75;
-    
-    private static final DriveTrainManager driveTrainInstance = new DriveTrainManager();
+	private final int leftMotorChannel = 0;
+	private final int rightMotorChannel = 1;
 
-    /**
-     * Factory method to always return the same instance.
-     * @return DriveTrainManager
-     */
-    public static DriveTrainManager getInstance()
-    {
-    	return driveTrainInstance;
-    }
+	private Victor leftMotor1 = null;
+	private Victor rightMotor1 = null;
+	private final double DEAD_ZONE = 0.2;
 
-    /**
-     * Default constructor.
-     */
-    public DriveTrainManager(){
-//		gyro.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);	// TODO Question the use of this value
-//		pid.setOutputRange(-1, 1);
-//		pid.enable();
-    }
+	private static final DriveTrainManager driveTrainInstance = new DriveTrainManager();
 
-    public void teleopInit() {
-    	leftMotor1 = new Victor(leftMotorChannel);
-    	rightMotor1 = new Victor(rightMotorChannel);
-    }
-    
-    public void setForward(double power){
-		if(!isFullPower){
-		    powerLeftAuton(power);
-		    powerRightAuton(power);
+	/**
+	 * Factory method to always return the same instance.
+	 * 
+	 * @return DriveTrainManager
+	 */
+	public static DriveTrainManager getInstance() {
+		return driveTrainInstance;
+	}
+
+	/**
+	 * Default constructor.
+	 */
+	public DriveTrainManager() {
+	}
+
+	public void robotInit() {
+		leftMotor1 = new Victor(leftMotorChannel);
+		rightMotor1 = new Victor(rightMotorChannel);
+	}
+
+	private double scaleInputsToPower(double input) {
+		double power = 0.0;
+		if (Math.abs(input) > DEAD_ZONE) {
+			if (input < 0) {
+				power = (input + DEAD_ZONE) / (1.0 - DEAD_ZONE);
+			} else {
+				power = (input - DEAD_ZONE) / (1.0 - DEAD_ZONE);
+			}
+		} else {
+			stop();
 		}
-		else {
-			powerLeftNormal(power);
-			powerRightNormal(power);
-		}
-    }
+		return Math.pow(power, 3.0);
+	}
 
-    public void setGyroAngle(double point){
-//    	pid.setSetpoint(point);
-    }
-    
-    public void resetGyro(){
-//		double error = pid.getError();
-//		gyro.reset();
-//		pid.setSetpoint(-error);
-    }
+	// Stop function. Copy into BoulderWheels. 2/15/16
+	public void stop() {
+		Runnable task = () -> {
+			stopLeftWheel();
+		};
+		Thread stopLeft = new Thread(task);
+		stopLeft.start();
+		stopRightWheel();
+	}
 
-    public void setIsFullPower(boolean enabled){
-		if (enabled){
-		    isFullPower = true;
-		}
-		else{
-		    isFullPower = false;
-		}
-    }
-
-    public void powerLeftAuton(double power){
-    	leftMotor1.set(power * autoPowerLevel);
-    	SmartDashboard.putNumber("Left power:", leftMotor1.get());
-    }
- 
-    public void powerRightAuton(double power) {
-    	rightMotor1.set(power * autoPowerLevel);
-    	SmartDashboard.putNumber("Right power:", rightMotor1.get());
-    }
-    
-    public void powerLeftNormal(double power){
+	public void powerLeftNormal(double power) {
+		power = scaleInputsToPower(power);
 		leftMotor1.set(power);
 		SmartDashboard.putNumber("Left power:", leftMotor1.get());
-    }
+	}
 
-    public void powerRightNormal(double power){
+	public void powerRightNormal(double power) {
+		power = scaleInputsToPower(power);
 		rightMotor1.set(power);
 		SmartDashboard.putNumber("Right power:", rightMotor1.get());
-    }
-    
-    public boolean isFullPower(){
-    	return isFullPower;
-    }
+	}
+
+	// TODO: copy both stopLeftWheel() and stopRightWheel() into BoulderWheels.
+	// 2/15/16
+	public void stopLeftWheel() {
+		double currentLPower = leftMotor1.get(); // Get the current power
+													// setting
+		double powerToArrestMom = -(currentLPower / 2); // that's momentum, not
+														// your Mom!
+		// You may have to play with this calculation in order to get the
+		// stopping just right
+		// Maybe just raise the 2 to a 3 or 4, possibly a fractional value. It
+		// will take some experimentation
+
+		if (powerToArrestMom < 0) {
+			for (double rLPower = 0; rLPower > powerToArrestMom; rLPower -= 0.01) {
+				leftMotor1.set(rLPower); // Gradually give more power to stop
+											// the wheels
+			}
+		} else {
+			for (double rLPower = 0; rLPower < powerToArrestMom; rLPower += 0.01) {
+				leftMotor1.set(rLPower);
+			}
+		}
+		// Now that mom is arrested, set power to wheel to 0.
+		leftMotor1.set(0);
+	}
+
+	public void stopRightWheel() {
+		double currentRPower = rightMotor1.get(); // Get the current power
+													// setting
+		double powerToArrestMom = -(currentRPower / 2); // that's momentum, not
+														// your Mom!
+		// You may have to play with this calculation in order to get the
+		// stopping just right
+		// Maybe just raise the 2 to a 3 or 4, possibly a fractional value. It
+		// will take some experimentation
+
+		if (powerToArrestMom < 0) {
+			for (double rRPower = 0; rRPower > powerToArrestMom; rRPower -= 0.01) {
+				rightMotor1.set(rRPower); // Gradually give more power to stop
+											// the wheels
+			}
+		} else {
+			for (double rRPower = 0; rRPower < powerToArrestMom; rRPower += 0.01) {
+				rightMotor1.set(rRPower);
+			}
+		}
+		// Now that mom is arrested, set power to wheel to 0.
+		rightMotor1.set(0);
+	}
 
 	@Override
 	public void pidWrite(double output) {
-		// TODO Figure out what to write for pidWrite.
-		
+		// TODO Figure out what to write for pidWrite if anything.
+
 	}
-    
+
 }
