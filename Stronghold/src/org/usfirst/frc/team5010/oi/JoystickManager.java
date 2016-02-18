@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class JoystickManager {
 
 	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
-	// TODO Revert operator joystick to Joystick(1) once testing is done.
 	private XboxJoystick operator = new XboxJoystick(new Joystick(1));
 	// private XboxJoystick operator = new XboxJoystick(new Joystick(1));
 

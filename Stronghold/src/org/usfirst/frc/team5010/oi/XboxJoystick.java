@@ -124,8 +124,7 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 			return false;
 	}
 
-	// TODO Insert a value for POVValue. This is a method for the D-Pad, used
-	// for tilting the piston.
+	
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
 		return isEvent(ButtonEvents.PRESSED, buttonNbr);

@@ -78,8 +78,7 @@ public class DriveTrainManager implements PIDOutput {
 		SmartDashboard.putNumber("Right power:", rightMotor1.get());
 	}
 
-	// TODO: copy both stopLeftWheel() and stopRightWheel() into BoulderWheels.
-	// 2/15/16
+	
 	public void stopLeftWheel() {
 		double currentLPower = leftMotor1.get(); // Get the current power
 													// setting
@@ -130,7 +129,7 @@ public class DriveTrainManager implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		// TODO Figure out what to write for pidWrite if anything.
+
 
 	}
 

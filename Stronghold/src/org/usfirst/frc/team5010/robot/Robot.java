@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	// TODO: Add classes and initialize boulder handler in teleopInit
+	
 
 	private AutoModeInterface autoMgr;
 	private JoystickManager joystickMgr = null;
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// TODO Add any teleopInit code necessary.
+	
 
 	}
 
