@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class JoystickManager {
 
 	private XboxJoystick driver = new XboxJoystick(new Joystick(0));
-	private XboxJoystick operator = new XboxJoystick(new Joystick(1));
+	private XboxJoystick operator = driver;//new XboxJoystick(new Joystick(1));
 	// private XboxJoystick operator = new XboxJoystick(new Joystick(1));
 
 	/**

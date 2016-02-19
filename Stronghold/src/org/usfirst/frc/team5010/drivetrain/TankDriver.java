@@ -7,6 +7,7 @@ public class TankDriver implements LogicManager {
 	
 	private JoystickManager joystickMgr;
 	private DriveTrainManager driveTrainMgr;
+	private final double DEAD_ZONE = 0.2;
 
 	public TankDriver(JoystickManager joystickMgr, DriveTrainManager driveTrainMgr) {
 
@@ -18,11 +19,23 @@ public class TankDriver implements LogicManager {
 	public void update() {
 		// logicManager.updateRobotDriving(); - put this code in a LogicManager
 		double lPower = joystickMgr.tankDriveLeft();
-		driveTrainMgr.powerLeftNormal(-lPower);
+		driveTrainMgr.powerLeftNormal(scaleInputsToPower(-lPower));
 
 		double rPower = joystickMgr.tankDriveRight();
-		driveTrainMgr.powerRightNormal(rPower);
+		driveTrainMgr.powerRightNormal(scaleInputsToPower(rPower));
 
 	}
-
+	private double scaleInputsToPower(double input) {
+		double power = 0.0;
+		if (Math.abs(input) > DEAD_ZONE) {
+			if (input < 0) {
+				power = (input + DEAD_ZONE) / (1.0 - DEAD_ZONE);
+			} else {
+				power = (input - DEAD_ZONE) / (1.0 - DEAD_ZONE);
+			}
+		} else {
+			driveTrainMgr.stop();
+		}
+		return Math.pow(power, 3.0);
+	}
 }

@@ -3,6 +3,7 @@ package org.usfirst.frc.team5010.robot;
 
 import org.usfirst.frc.team5010.auto.modes.AutoModeInterface;
 import org.usfirst.frc.team5010.auto.modes.AutoModeManager;
+import org.usfirst.frc.team5010.auto.modes.AutonTestMode;
 import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
@@ -21,7 +22,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
 
 	private AutoModeInterface autoMgr;
 	private JoystickManager joystickMgr = null;
@@ -37,7 +37,9 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+	@Override
 	public void robotInit() {
+		System.out.println("Calling robotInit");
 		// Initialize auto mode manager
 		AutoModeManager.init();
 
@@ -76,7 +78,9 @@ public class Robot extends IterativeRobot {
 	 * switch structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
+	@Override
 	public void autonomousInit() {
+		System.out.println("Calling autonomousInit");
 		autoMgr = AutoModeManager.get();
 		autoMgr.initAuton(driveTrain, boulderHndlr);
 	}
@@ -84,6 +88,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during autonomous
 	 */
+	@Override
 	public void autonomousPeriodic() {
 		while (isAutonomous() && isEnabled()) {
 			try {
@@ -120,26 +125,31 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-	
-
+		System.out.println("Calling teleopInit");
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
+	@Override
 	public void teleopPeriodic() {
 		joystickMgr.updateStatus();
 		tankDriver.update();
 		boulderHndlr.update();
-		// logicManager.updateButtons();
-
 	}
 
+	@Override
+	public void testInit() {
+		System.out.println("Calling testInit");
+		autoMgr = new AutonTestMode();
+		autoMgr.initAuton(driveTrain, boulderHndlr);
+	};
 	/**
 	 * This function is called periodically during test mode
 	 */
+	@Override
 	public void testPeriodic() {
-
+		autoMgr.run();
 	}
 
 	public DriveTrainManager getDriveTrain() {
@@ -150,11 +160,16 @@ public class Robot extends IterativeRobot {
 		return boulderHndlr;
 	}
 
+	@Override
 	public void disabledInit() {
-		autoMgr.stop();
-		driveTrain.stop();
-		boulderHndlr.disable();
-		
-		
+		System.out.println("Calling disabledInit");
+		// TODO fix if needed later
+		if (autoMgr != null)
+			autoMgr.stop();
+		if (driveTrain != null)
+			driveTrain.stop();
+		if (boulderHndlr != null)
+			boulderHndlr.disable();
+
 	}
 }
