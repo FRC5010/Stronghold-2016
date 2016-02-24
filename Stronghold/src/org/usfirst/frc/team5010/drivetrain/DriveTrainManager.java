@@ -18,7 +18,6 @@ public class DriveTrainManager implements PIDOutput {
 
 	private Victor leftMotor1 = null;
 	private Victor rightMotor1 = null;
-	private final double DEAD_ZONE = 0.2;
 
 	private static final DriveTrainManager driveTrainInstance = new DriveTrainManager();
 
@@ -42,20 +41,6 @@ public class DriveTrainManager implements PIDOutput {
 		rightMotor1 = new Victor(rightMotorChannel);
 	}
 
-	private double scaleInputsToPower(double input) {
-		double power = 0.0;
-		if (Math.abs(input) > DEAD_ZONE) {
-			if (input < 0) {
-				power = (input + DEAD_ZONE) / (1.0 - DEAD_ZONE);
-			} else {
-				power = (input - DEAD_ZONE) / (1.0 - DEAD_ZONE);
-			}
-		} else {
-			stop();
-		}
-		return Math.pow(power, 3.0);
-	}
-
 	// Stop function. Copy into BoulderWheels. 2/15/16
 	public void stop() {
 		Runnable task = () -> {
@@ -67,19 +52,16 @@ public class DriveTrainManager implements PIDOutput {
 	}
 
 	public void powerLeftNormal(double power) {
-		power = scaleInputsToPower(power);
 		leftMotor1.set(power);
 		SmartDashboard.putNumber("Left power:", leftMotor1.get());
 	}
 
 	public void powerRightNormal(double power) {
-		power = scaleInputsToPower(power);
 		rightMotor1.set(power);
 		SmartDashboard.putNumber("Right power:", rightMotor1.get());
 	}
 
-	// TODO: copy both stopLeftWheel() and stopRightWheel() into BoulderWheels.
-	// 2/15/16
+	
 	public void stopLeftWheel() {
 		double currentLPower = leftMotor1.get(); // Get the current power
 													// setting
@@ -130,7 +112,7 @@ public class DriveTrainManager implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		// TODO Figure out what to write for pidWrite if anything.
+
 
 	}
 
