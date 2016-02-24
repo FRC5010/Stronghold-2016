@@ -9,7 +9,10 @@ import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import org.usfirst.frc.team5010.drivetrain.TankDriver;
 import org.usfirst.frc.team5010.oi.JoystickManager;
 
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -47,9 +50,9 @@ public class Robot extends IterativeRobot {
 		joystickMgr = new JoystickManager();
 		joystickMgr.initController();
 
-		server = CameraServer.getInstance();
-		server.setQuality(100);
-		server.startAutomaticCapture("cam0");
+		// server = CameraServer.getInstance();
+		// server.setQuality(100);
+		// server.startAutomaticCapture("cam0");
 
 		driveTrain = new DriveTrainManager();
 		driveTrain.robotInit();
@@ -57,14 +60,13 @@ public class Robot extends IterativeRobot {
 
 		boulderHndlr = new BoulderHandler(joystickMgr);
 
-		// //attempt for targeting overlay
-		// frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		//
-		// // the camera name (ex "cam0") can be found through the roborio web
+		// attempt for targeting overlay
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+		// the camera name (ex "cam0") can be found through the roborio web
 		// interface
-		// session = NIVision.IMAQdxOpenCamera("cam1",
-		// NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		// NIVision.IMAQdxConfigureGrab(session);
+		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		NIVision.IMAQdxConfigureGrab(session);
 	}
 
 	/**
@@ -93,34 +95,12 @@ public class Robot extends IterativeRobot {
 		while (isAutonomous() && isEnabled()) {
 			try {
 				Thread.sleep(5);
+				autoMgr.run();
+				camera();
 			} catch (InterruptedException ie) {
-				// do nothing
+				System.out.println(ie.getMessage());
 			}
-
-			autoMgr.run();
 		}
-
-		// //testing for targeting overlay
-		// NIVision.IMAQdxStartAcquisition(session);
-		//
-		// /**
-		// * grab an image, draw the circle, and provide it for the camera
-		// server
-		// * which will in turn send it to the dashboard.
-		// */
-		// NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-		//
-		// while (isOperatorControl() && isEnabled()) {
-		//
-		// NIVision.IMAQdxGrab(session, frame, 1);
-		// NIVision.imaqDrawShapeOnImage(frame, frame, rect,
-		// DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-		//
-		// CameraServer.getInstance().setImage(frame);
-		//
-		// }
-		// NIVision.IMAQdxStopAcquisition(session);
-
 	}
 
 	@Override
@@ -136,6 +116,8 @@ public class Robot extends IterativeRobot {
 		joystickMgr.updateStatus();
 		tankDriver.update();
 		boulderHndlr.update();
+		camera();
+
 	}
 
 	@Override
@@ -144,6 +126,7 @@ public class Robot extends IterativeRobot {
 		autoMgr = new AutonTestMode();
 		autoMgr.initAuton(driveTrain, boulderHndlr);
 	};
+
 	/**
 	 * This function is called periodically during test mode
 	 */
@@ -170,6 +153,24 @@ public class Robot extends IterativeRobot {
 			driveTrain.stop();
 		if (boulderHndlr != null)
 			boulderHndlr.disable();
+
+	}
+
+	private void camera() {
+		NIVision.IMAQdxStartAcquisition(session);
+
+		/**
+		 * grab an image, draw the circle, and provide it for the camera server
+		 * which will in turn send it to the dashboard.
+		 */
+		NIVision.Rect rect = new NIVision.Rect(100, 250, 200, 200);
+
+		NIVision.IMAQdxGrab(session, frame, 1);
+		NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+
+		CameraServer.getInstance().setImage(frame);
+
+		// NIVision.IMAQdxStopAcquisition(session);
 
 	}
 }

@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShootHighGoal implements AutoModeStep {
 	private long startTime;
 	private long moveCaptureUp = 0;
-	private long spinWheelTimeOffset = 500;
-	private long shootBoulderOffset = 1000;
-	private long retractShooterOffset = 1500;
-	private long stopWheelsOffset = 2000;
+	private long spinWheelTimeOffset = 1000;
+	private long shootBoulderOffset = 2000;
+	private long retractShooterOffset = 2500;
+	private long stopWheelsOffset = 3000;
 	private boolean accomplished = false;
 	private BoulderHandler boulderHandler;
 

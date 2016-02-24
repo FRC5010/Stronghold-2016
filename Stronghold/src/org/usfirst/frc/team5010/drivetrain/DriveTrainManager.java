@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5010.drivetrain;
 
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,11 +14,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrainManager implements PIDOutput {
 
 	// Define drive channels
-	private final int leftMotorChannel = 0;
+	private final int leftMotor1Channel = 4;
+	private final int leftMotor2Channel = 0;
 	private final int rightMotorChannel = 1;
 
+
 	private Victor leftMotor1 = null;
+	private Talon leftMotor2 = null;
 	private Victor rightMotor1 = null;
+	
+	
 
 	private static final DriveTrainManager driveTrainInstance = new DriveTrainManager();
 
@@ -37,7 +43,9 @@ public class DriveTrainManager implements PIDOutput {
 	}
 
 	public void robotInit() {
-		leftMotor1 = new Victor(leftMotorChannel);
+		leftMotor1 = new Victor(leftMotor1Channel);
+		leftMotor2 = new Talon(leftMotor2Channel);
+		
 		rightMotor1 = new Victor(rightMotorChannel);
 	}
 
@@ -53,6 +61,7 @@ public class DriveTrainManager implements PIDOutput {
 
 	public void powerLeftNormal(double power) {
 		leftMotor1.set(power);
+		leftMotor2.set(power);
 		SmartDashboard.putNumber("Left power:", leftMotor1.get());
 	}
 
@@ -61,10 +70,10 @@ public class DriveTrainManager implements PIDOutput {
 		SmartDashboard.putNumber("Right power:", rightMotor1.get());
 	}
 
-	
+	//TODO FIX left side
 	public void stopLeftWheel() {
-		double currentLPower = leftMotor1.get(); // Get the current power
-													// setting
+		double currentLPower = leftMotor1.get();// Get the current power										
+		// setting
 		double powerToArrestMom = -(currentLPower / 2); // that's momentum, not
 														// your Mom!
 		// You may have to play with this calculation in order to get the
@@ -75,11 +84,12 @@ public class DriveTrainManager implements PIDOutput {
 		if (powerToArrestMom < 0) {
 			for (double rLPower = 0; rLPower > powerToArrestMom; rLPower -= 0.01) {
 				leftMotor1.set(rLPower); // Gradually give more power to stop
-											// the wheels
+				leftMotor2.set(rLPower);		// the wheels
 			}
 		} else {
 			for (double rLPower = 0; rLPower < powerToArrestMom; rLPower += 0.01) {
 				leftMotor1.set(rLPower);
+				leftMotor2.set(rLPower);
 			}
 		}
 		// Now that mom is arrested, set power to wheel to 0.

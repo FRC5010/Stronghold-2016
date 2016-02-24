@@ -15,6 +15,7 @@ public class AutoModeManager implements AutoModeInterface {
 	private static final String position3 = "Position Three";
 	private static final String position4 = "Position Four";
 	private static final String position5 = "Position Five";
+	private static final String testMode = "Test Mode";
 
 	private static String modeSelected;
 	private static SendableChooser chooser;
@@ -29,6 +30,7 @@ public class AutoModeManager implements AutoModeInterface {
 		chooser.addObject(position3, position3);
 		chooser.addObject(position4, position4);
 		chooser.addObject(position5, position5);
+		chooser.addObject(testMode, testMode);
 
 		SmartDashboard.putData("Auto modes", chooser);
 	}
@@ -57,6 +59,9 @@ public class AutoModeManager implements AutoModeInterface {
 				break;
 			case position5:
 				// instance =  new Position5Manager();
+				break;
+			case testMode:
+				instance = new AutonTestMode();
 				break;
 			default: // Something went wrong with mode selection
 				// return this class to do nothing in auto mode

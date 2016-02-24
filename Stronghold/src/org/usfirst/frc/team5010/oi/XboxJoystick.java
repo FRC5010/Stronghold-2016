@@ -5,34 +5,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class XboxJoystick extends BaseJoystick implements JoystickController {
 
-	private enum ButtonEvents { 
+	private enum ButtonEvents {
 		NO_EVENT, PRESSED, RELEASED
 
 	};
-	
+
 	private ButtonEvents[] events = new ButtonEvents[12];
-	
+
 	private Joystick joyStick = null;
 	private boolean[] currentButtonStatus = new boolean[12];
 	private boolean[] previousButtonStatus = new boolean[12];
 
 	/**
-	 * Constructor override.
-	 *            k
+	 * Constructor override. k
+	 * 
 	 * @param joyStk
 	 *            Joystick
 	 */
-	
+
 	public XboxJoystick(Joystick joyStick) {
 		super();
 		this.joyStick = joyStick;
-		for(int i = 1; i < 12; i++){
+		for (int i = 1; i < 12; i++) {
 			events[i] = ButtonEvents.NO_EVENT;
 		}
 	}
 
 	public boolean isAButtonPressed() {
-//		return isButtonPressed(1);
+		// return isButtonPressed(1);
 		return isEvent(ButtonEvents.PRESSED, 1);
 
 	}
@@ -48,7 +48,7 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	}
 
 	public boolean isYButtonPressed() {
-		//return isButtonPressed(4);
+		// return isButtonPressed(4);
 		return isEvent(ButtonEvents.PRESSED, 4);
 
 	}
@@ -59,7 +59,7 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	}
 
 	public boolean isRBButtonPressed() {
-		//return joyStick.getRawButton(6);
+		// return joyStick.getRawButton(6);
 		return isEvent(ButtonEvents.PRESSED, 6);
 	}
 
@@ -116,15 +116,15 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	public int POVValue() {
 		return joyStick.getPOV(0);
 	}
+
 	private boolean isEvent(ButtonEvents expected, int buttonNbr) {
-		if ( expected == events[buttonNbr] ) {
+		if (expected == events[buttonNbr]) {
 			events[buttonNbr] = ButtonEvents.NO_EVENT; // reset event
 			return true;
-		}else
+		} else
 			return false;
 	}
 
-	
 	@Override
 	public boolean isButtonPressed(int buttonNbr) {
 		return isEvent(ButtonEvents.PRESSED, buttonNbr);
@@ -137,17 +137,19 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 
 	@Override
 	public void updateStatus() {
-		// Since there are only 11 buttons (and start at 1), only process 1 -
+		// Since there are only 10 buttons (and start at 1), only process 1 -
 		// 11.
-		for (int i = 1; i < 12; ++i) {
-			currentButtonStatus[i] = joyStick.getRawButton(i);		
-			//If these are unequal, an evant has occured.
-			if(currentButtonStatus[i] != previousButtonStatus[i]){	
-				//update previous status so it only registers once
-				previousButtonStatus[i] = currentButtonStatus[i];	
-				//record which event we detected
-				if(currentButtonStatus[i] == true){
-					events[i] = ButtonEvents.PRESSED;// the event for this button is labeled, PRESSED
+		for (int i = 1; i < 11; ++i) {
+			currentButtonStatus[i] = joyStick.getRawButton(i);
+			// If these are unequal, an evant has occured.
+			if (currentButtonStatus[i] != previousButtonStatus[i]) {
+				// update previous status so it only registers once
+				previousButtonStatus[i] = currentButtonStatus[i];
+				// record which event we detected
+				if (currentButtonStatus[i] == true) {
+					events[i] = ButtonEvents.PRESSED;// the event for this
+														// button is labeled,
+														// PRESSED
 					SmartDashboard.putNumber("Button Pressed", i);
 				} else {
 					events[i] = ButtonEvents.RELEASED;
@@ -158,7 +160,7 @@ public class XboxJoystick extends BaseJoystick implements JoystickController {
 	}
 
 	public boolean isRBButtonReleased() {
-//		return isButtonReleased(6);
+		// return isButtonReleased(6);
 		return isEvent(ButtonEvents.RELEASED, 6);
 	}
 
