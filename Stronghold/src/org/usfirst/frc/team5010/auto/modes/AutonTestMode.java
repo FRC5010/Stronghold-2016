@@ -2,7 +2,7 @@ package org.usfirst.frc.team5010.auto.modes;
 
 import org.usfirst.frc.team5010.auto.DistanceHandler;
 import org.usfirst.frc.team5010.auto.TiltHandler;
-import org.usfirst.frc.team5010.auto.steps.DriveForwardUntilDistance;
+import org.usfirst.frc.team5010.auto.steps.TestStep;
 import org.usfirst.frc.team5010.boulder.BoulderHandler;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
@@ -21,7 +21,8 @@ public class AutonTestMode extends SuperAutonMode implements AutoModeInterface {
 		headingGyro = new ADXRS450_Gyro();
 		accel = new TiltHandler();
 		ranger = new DistanceHandler();
-		steps[0] = new DriveForwardUntilDistance(driveTrain, ranger,headingGyro, 24);
+		steps[0] = new TestStep(ranger);
+//		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
 		steps[0].startStep();
 	}
 }

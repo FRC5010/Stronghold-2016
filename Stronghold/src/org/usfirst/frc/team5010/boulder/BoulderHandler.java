@@ -56,6 +56,7 @@ public class BoulderHandler implements LogicManager {
 	
 	public void shootBoulder() {
 		bouldrShtr.doShooter();
+		SmartDashboard.putString("shootBoulder", "works");
 	}
 	
 	public void retractShooter() {
@@ -64,7 +65,7 @@ public class BoulderHandler implements LogicManager {
 	
 	public void lowShotWheels() {
 		SmartDashboard.putString("Boulder Wheels", "LowShot");
-		bouldrWhls.lowShot();
+		bouldrWhls.fastIntake();
 	}
 	
 	public void highShotWheels() {

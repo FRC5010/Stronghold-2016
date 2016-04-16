@@ -13,7 +13,7 @@ public class BoulderWheels {
 		this.motorLeft = new Victor(2);
 		this.motorRight = new Victor(3);
 		SmartDashboard.putNumber("Intake", 0.35 );
-		SmartDashboard.putNumber("LowShot", 0.5);
+		SmartDashboard.putNumber("FastIntake", -0.8);
 		SmartDashboard.putNumber("HighShot", 1.0);
 	}
 
@@ -28,8 +28,8 @@ public class BoulderWheels {
 		shootBoulder(power);
 	}
 	
-	public void lowShot() {
-		double power = SmartDashboard.getNumber("LowShot");
+	public void fastIntake() {
+		double power = SmartDashboard.getNumber("FastIntake");
 		shootBoulder(power);
 	}
 	

@@ -15,32 +15,26 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class Position1Manager extends SuperAutonMode implements AutoModeInterface {
 	private Gyro headingGyro = null;
-	private TiltHandler accel;
-	private DistanceHandler ranger;
-	private BoulderHandler boulderHndlr;
+//	private BoulderHandler boulderHndlr;
 
-	private AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
+	//private AutoModeStep[] steps = new AutoModeStep[numberOfSteps];
 
-	public Position1Manager(BoulderHandler boulderHndlr) {
+	public Position1Manager() {
 		headingGyro = new ADXRS450_Gyro();
-		accel = new TiltHandler();
-		ranger = new DistanceHandler();
-		this.boulderHndlr = boulderHndlr;
 	}
 
 	@Override
 	public void initAuton(DriveTrainManager driveTrain, BoulderHandler boulderHandler) {
-		numberOfSteps = 5;
+		numberOfSteps = 1;
 		currentStepIndex = 0;
 		super.initAuton(driveTrain, boulderHandler);
-		steps[0] = new MoveArm(boulderHndlr, false);
-		steps[1] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
-		steps[2] = new TurnRobot(driveTrain, 90, headingGyro);
-		steps[3] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
-		steps[4] = new TurnRobot(driveTrain, 0, headingGyro);
-		steps[5] = new ShootHighGoal(boulderHandler);
+		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 6000);
 		steps[0].startStep();
 
 	}
 
+	@Override
+	public void run() {
+		super.run();
+	}
 }

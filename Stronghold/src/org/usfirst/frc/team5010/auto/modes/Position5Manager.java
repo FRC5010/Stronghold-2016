@@ -28,12 +28,12 @@ public class Position5Manager extends SuperAutonMode implements AutoModeInterfac
 		numberOfSteps = 5;
 		currentStepIndex = 0;
 		super.initAuton(driveTrain, boulderHandler);
-		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
-		steps[1] = new TurnRobot(driveTrain, 270, headingGyro);
-		steps[2] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
-		steps[3] = new TurnRobot(driveTrain, 0, headingGyro);
-		steps[4] = new ShootHighGoal(boulderHandler);
-		steps[0].startStep();
+//		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
+//		steps[1] = new TurnRobot(driveTrain, 270, headingGyro);
+//		steps[2] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
+//		steps[3] = new TurnRobot(driveTrain, 0, headingGyro);
+//		steps[4] = new ShootHighGoal(boulderHandler);
+//		steps[0].startStep();
 
 	}
 

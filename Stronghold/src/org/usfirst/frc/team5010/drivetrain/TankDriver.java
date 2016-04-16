@@ -4,10 +4,10 @@ import org.usfirst.frc.team5010.oi.JoystickManager;
 import org.usfirst.frc.team5010.robot.LogicManager;
 
 public class TankDriver implements LogicManager {
-	
+
 	private JoystickManager joystickMgr;
 	private DriveTrainManager driveTrainMgr;
-	private final double DEAD_ZONE = 0.2;
+	private final double DEAD_ZONE = 0.1;
 
 	public TankDriver(JoystickManager joystickMgr, DriveTrainManager driveTrainMgr) {
 
@@ -19,12 +19,15 @@ public class TankDriver implements LogicManager {
 	public void update() {
 		// logicManager.updateRobotDriving(); - put this code in a LogicManager
 		double lPower = joystickMgr.tankDriveLeft();
-		driveTrainMgr.powerLeftNormal(scaleInputsToPower(-lPower));
+		lPower = scaleInputsToPower(lPower);
+		driveTrainMgr.powerLeftNormal(lPower);
 
 		double rPower = joystickMgr.tankDriveRight();
-		driveTrainMgr.powerRightNormal(scaleInputsToPower(rPower));
+		rPower = scaleInputsToPower(rPower);
+		driveTrainMgr.powerRightNormal(-rPower);
 
 	}
+
 	private double scaleInputsToPower(double input) {
 		double power = 0.0;
 		if (Math.abs(input) > DEAD_ZONE) {
@@ -34,8 +37,8 @@ public class TankDriver implements LogicManager {
 				power = (input - DEAD_ZONE) / (1.0 - DEAD_ZONE);
 			}
 		} else {
-			driveTrainMgr.stop();
+			//driveTrainMgr.stop();
 		}
-		return Math.pow(power, 3.0);
+			return Math.pow(power, 3.0);
 	}
 }
