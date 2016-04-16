@@ -27,9 +27,9 @@ public class Position3Manager extends SuperAutonMode implements AutoModeInterfac
 		numberOfSteps = 2;
 		currentStepIndex = 0;
 		super.initAuton(driveTrain, boulderHandler);
-		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
-		steps[1] = new ShootHighGoal(boulderHandler);
-		steps[0].startStep();
+//		steps[0] = new AutonDriveForwardForTime(driveTrain, headingGyro, 2000);
+//		steps[1] = new ShootHighGoal(boulderHandler);
+//		steps[0].startStep();
 
 	}
 

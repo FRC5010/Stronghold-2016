@@ -35,7 +35,7 @@ public class AutonDriveForwardForTime extends AutonDriver implements AutoModeSte
 		if (System.currentTimeMillis() < autonStartTime + FORWARDTIME) {
 			steer(0.50, angle);
 		} else {
-			stop();
+			driveTrain.powerBothNormal(0);
 			accomplished = true;
 		}
 		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());

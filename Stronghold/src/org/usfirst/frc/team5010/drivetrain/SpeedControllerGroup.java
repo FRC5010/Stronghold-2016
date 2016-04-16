@@ -27,18 +27,12 @@ public class SpeedControllerGroup {
 
 	public void set(double d) {
 		num1.set(d);
-		if (num2 != null)
-		{
-			num2.set(d);
-		}
+		num2.set(d);
 	}
 
 	public void disable() {
 		num1.disable();
-		if (num2 != null)
-		{
-			num2.disable();
-		}
+		num2.disable();
 	}
 
 }

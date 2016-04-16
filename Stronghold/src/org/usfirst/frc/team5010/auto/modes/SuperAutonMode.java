@@ -7,17 +7,18 @@ import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SuperAutonMode implements AutoModeInterface {
-	int numberOfSteps = 2;
+	int numberOfSteps = 1;
 	AutoModeStep[] steps;
 	int currentStepIndex = 0;
-	 DriveTrainManager driveTrain;
-	 BoulderHandler boulderHandler;
-	 boolean enabled;
+	DriveTrainManager driveTrain;
+	BoulderHandler boulderHandler;
+	boolean enabled;
 
 	@Override
 	public void run() {
 		if (enabled && currentStepIndex < numberOfSteps) {
 			AutoModeStep currentStep = steps[currentStepIndex];
+			SmartDashboard.putNumber("currentStep", currentStepIndex);
 			if (!currentStep.accomplished()) {
 				currentStep.update();
 			}
@@ -45,7 +46,7 @@ public class SuperAutonMode implements AutoModeInterface {
 	@Override
 	public void stop() {
 		enabled = false;
-		
+
 	}
 
 }

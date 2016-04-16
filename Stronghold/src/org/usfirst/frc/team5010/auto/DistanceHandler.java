@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DistanceHandler {
 	AnalogInput rangerIn;
-	private final double voltsToInches = 1;
+	private final double voltsToInches = .1309776799;//0.13083333;
 	
 	public DistanceHandler() {
 		rangerIn = new AnalogInput(0);

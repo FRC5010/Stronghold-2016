@@ -15,6 +15,9 @@ public class AutoModeManager implements AutoModeInterface {
 	private static final String position3 = "Position Three";
 	private static final String position4 = "Position Four";
 	private static final String position5 = "Position Five";
+	private static final String testMode = "Test Mode";
+	
+	private static final String lowBarMode = "Low Bar";
 
 	private static String modeSelected;
 	private static SendableChooser chooser;
@@ -24,11 +27,13 @@ public class AutoModeManager implements AutoModeInterface {
 	public static void init() {
 		chooser = new SendableChooser();
 		chooser.addDefault(spybotMode, spybotMode);
-		chooser.addObject(position1, position1);
-		chooser.addObject(position2, position2);
-		chooser.addObject(position3, position3);
-		chooser.addObject(position4, position4);
-		chooser.addObject(position5, position5);
+		chooser.addDefault(lowBarMode, lowBarMode);
+		chooser.addObject("Go straight", position1);
+		//chooser.addObject(position2, position2);
+		//chooser.addObject(position3, position3);
+		//chooser.addObject(position4, position4);
+		//chooser.addObject(position5, position5);
+		chooser.addObject("do nothing", testMode);
 
 		SmartDashboard.putData("Auto modes", chooser);
 	}
@@ -44,7 +49,7 @@ public class AutoModeManager implements AutoModeInterface {
 				instance = new SpybotManager();
 				break;
 			case position1:
-				//instance = new Position1Manager();
+				instance = new Position1Manager();
 				break;
 			case position2:
 				// instance =  new Position2Manager();
@@ -57,6 +62,12 @@ public class AutoModeManager implements AutoModeInterface {
 				break;
 			case position5:
 				// instance =  new Position5Manager();
+				break;
+			case testMode:
+				instance = new AutonTestMode();
+				break;
+			case lowBarMode:
+				instance = new LowBarMode();
 				break;
 			default: // Something went wrong with mode selection
 				// return this class to do nothing in auto mode

@@ -42,12 +42,12 @@ public class AutonDriver {
 		SmartDashboard.putNumber("powerLeftAuton", leftOutput);
 		SmartDashboard.putNumber("powerRightAuton", rightOutput);
 
-		driveTrain.powerLeftNormal(leftOutput);
+		driveTrain.powerLeftNormal(-leftOutput);
 		driveTrain.powerRightNormal(rightOutput);
 
 	}
 
 	public void stop() {
-		driveTrain.stop();
+		//driveTrain.stop();
 	}
 }
