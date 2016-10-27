@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShootHighGoal implements AutoModeStep {
 	private long startTime;
 	private long moveCaptureUp = 0;
-	private long spinWheelTimeOffset = 500;
-	private long shootBoulderOffset = 1000;
-	private long retractShooterOffset = 1500;
-	private long stopWheelsOffset = 2000;
+	private long spinWheelTimeOffset = 1000;
+	private long shootBoulderOffset = 2000;
+	private long retractShooterOffset = 3000;
+	private long stopWheelsOffset = 4000;
 	private boolean accomplished = false;
 	private BoulderHandler boulderHandler;
 
@@ -36,15 +36,20 @@ public class ShootHighGoal implements AutoModeStep {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime > moveCaptureUp && currentTime < spinWheelTimeOffset) {
 			boulderHandler.moveCaptureUp();
-		} else if (currentTime > spinWheelTimeOffset && currentTime < stopWheelsOffset) {
+		}
+		if (currentTime > spinWheelTimeOffset && currentTime < stopWheelsOffset) {
 			boulderHandler.highShotWheels();
-		} else if (currentTime > shootBoulderOffset && currentTime < retractShooterOffset) {
+		}
+		if (currentTime > shootBoulderOffset && currentTime < retractShooterOffset) {
 			boulderHandler.shootBoulder();
-		} else if (currentTime > retractShooterOffset && currentTime < stopWheelsOffset) {
+			SmartDashboard.putString("ShootHighGoal", "works");
+		}
+		if (currentTime > retractShooterOffset && currentTime < stopWheelsOffset) {
 			boulderHandler.retractShooter();
-		} else if (currentTime > stopWheelsOffset) {
+		}
+		if (currentTime > stopWheelsOffset) {
 			boulderHandler.stopWheels();
-			boulderHandler.moveCaptureDown();
+			// boulderHandler.moveCaptureDown();
 			accomplished = true;
 		}
 

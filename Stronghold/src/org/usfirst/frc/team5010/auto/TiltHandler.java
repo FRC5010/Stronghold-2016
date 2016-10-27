@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5010.auto;
 
+import org.usfirst.frc.team5010.auto.TiltHandler.TiltState;
+
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,5 +43,9 @@ public class TiltHandler {
 			}
 		}
 		SmartDashboard.putString("Tilt State", state.toString());
+	}
+
+	public TiltState GetState() {
+		return state;
 	}
 }

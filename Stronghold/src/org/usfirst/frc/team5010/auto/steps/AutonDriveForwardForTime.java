@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5010.auto.steps;
 
-import org.usfirst.frc.team5010.drivetrain.AutonDriver;
+import org.usfirst.frc.team5010.auto.AutonDriver;
 import org.usfirst.frc.team5010.drivetrain.DriveTrainManager;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -23,18 +23,19 @@ public class AutonDriveForwardForTime extends AutonDriver implements AutoModeSte
 	public void startStep() {		
 		autonStartTime = System.currentTimeMillis();
 		SmartDashboard.putString("Auton Task:", "Start AutonDriveForwardForTime");
+		headingGyro.reset();
 	}
 
 	@Override
 	public void update() {
 		SmartDashboard.putString("Auton Task:", "Update AutonDriveForwardForTime");
 		double angle = headingGyro.getAngle();
-		double curve = -angle * 0.03;
+		
 
 		if (System.currentTimeMillis() < autonStartTime + FORWARDTIME) {
-			steer(0.50, curve);
+			steer(0.50, angle);
 		} else {
-			stop();
+			driveTrain.powerBothNormal(0);
 			accomplished = true;
 		}
 		SmartDashboard.putNumber("Gyro Key", headingGyro.getAngle());
